@@ -1,0 +1,7 @@
+pages: 
+    script:
+        - mkdir -p public # Création du répertoire public
+        - cp Exercice-01.html public/index.html
+    artifacts:
+        paths:
+            - public 
