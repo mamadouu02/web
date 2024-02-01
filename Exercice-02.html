@@ -11,40 +11,67 @@
   <!-- Compléter la suite -->
   <fieldset>
     <legend>Pour vous inscrire, veuillez indiquer les informations suivantes:</legend>
-    <form>
+
+    <form method="post">
       <ul>
-        <li><label>Nom </label><input type="text" name="nom"></li>
-        <li><label>Prénom </label><input type="text" name="prenom"></li>
-        <li><label>Adresse de Facturation </label><textarea name="adresse de facturation"></textarea></li>
         <li>
-          <label>Date d'arrivée</label>
-          <input type="date" id="arrivee" name="date-arrivee" value="2021-10-18" min="2021-10-18" max="2021-10-19">
-          <label>Date de départ</label>
-          <input type="date" id="depart" name="date-depart" value="2021-10-19" min="2021-10-18" max="2021-10-19">
+          <label for="nom">Nom </label>
+          <input type="text" name="nom" id="nom">
         </li>
+
         <li>
-          <div>
-            <label>Votre statut</label>
-          </div>
-          <div>
-            <input type="radio" name="statut" value="S1"><label>Conférencier</label>
-            <input type="radio" name="statut" value="S2"><label>Chercheur</label>
-            <input type="radio" name="statut" value="S3"><label>Industriel</label>
+          <label for="prenom">Prénom </label>
+          <input type="text" name="prenom" id="prenom">
+        </li>
+
+        <li>
+          <label for="adresse">Adresse de Facturation </label>
+          <textarea name="adresse-de-facturation" id="adresse"></textarea>
+        </li>
+
+        <li>
+          <label for="arrivee">Date d'arrivée</label>
+          <input type="date" name="date-arrivee" id="arrivee" value="2021-10-18" min="2021-10-18" max="2021-10-19">
+
+          <label for="depart">Date de départ</label>
+          <input type="date" name="date-depart" id="depart" value="2021-10-19" min="2021-10-18" max="2021-10-19">
+        </li>
+
+        <li>
+          <label>Votre statut</label>
+
+          <div class="statut">
+            <input type="radio" name="statut" value="conferencier" id="statut-1">
+            <label for="statut-1">Conférencier</label>
+
+            <input type="radio" name="statut" value="chercheur" id="statut-2">
+            <label for="statut-2">Chercheur</label>
+
+            <input type="radio" name="statut" value="industriel" id="statut-3">
+            <label for="statut-3">Industriel</label>
           </div>
         </li>
+
         <li>
-          <div>
-            <label>Réservation souhaitée</label>
-          </div>
-          <div>
-            <input type="checkbox" name="reservation" value="R1"><label>Déjeuner Jour 1</label>
-            <input type="checkbox" name="reservation" value="R2"><label>Déjeuner Jour 2</label>
-            <input type="checkbox" name="reservation" value="R3"><label>Diner Jour 1</label>
-            <input type="checkbox" name="reservation" value="R4"><label>Diner Jour 2</label>
+          <label>Réservation souhaitée</label>
+
+          <div class="reservation">
+            <input type="checkbox" name="reservation" value="dejeuner-1" id="reservation-1">
+            <label for="reservation-1">Déjeuner Jour 1</label>
+
+            <input type="checkbox" name="reservation" value="dejeuner-2" id="reservation-2">
+            <label for="reservation-2">Déjeuner Jour 2</label>
+
+            <input type="checkbox" name="reservation" value="diner-1" id="reservation-3">
+            <label for="reservation-3">Diner Jour 1</label>
+
+            <input type="checkbox" name="reservation" value="diner-2" id="reservation-4">
+            <label for="reservation-4">Diner Jour 2</label>
           </div>
         </li>
       </ul>
-      <input type="submit" name="inscription" value="S'inscrire">
+
+      <input type="submit" value="S'inscrire">
     </form>
   </fieldset>
 </body>
