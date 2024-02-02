@@ -21,6 +21,7 @@ header{
 }
 
 #logo{
+    display: flex;
     border: 1px solid black;
     border-radius: 10px;
     background-color: red;
@@ -28,6 +29,7 @@ header{
     height: 120px;
     margin-right: 20px;
 }
+
 #pub {
      display: flex; 
     flex: 1; 
