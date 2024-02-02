@@ -2,6 +2,7 @@ p::first-letter{
     font-size: 2em;
     font-weight: bold;
 }
+
 .encart::before{
     font-weight: bold;
     font-size: 2em;
@@ -9,6 +10,7 @@ p::first-letter{
   color: black;
     counter-increment: compteur;
 }
+
 body{
     counter-reset: compteur;
     display: flex;
@@ -31,12 +33,10 @@ header{
 }
 
 #pub {
-     display: flex; 
+    display: flex; 
     flex: 1; 
     border-radius:  15px;
-
-    background-color: red;
-    
+    background-color: red;  
 }
 
 #pub >* {
@@ -47,6 +47,7 @@ header{
     align-self: center;
 
 }
+
 #pub >*>*{
 
     border-radius:  15px;
@@ -56,6 +57,7 @@ main{
     display: flex;
     flex-direction: row;
 }
+
 main>#menu {
     background-color: yellowgreen;
     border-radius:  15px;
@@ -63,9 +65,11 @@ main>#menu {
     border: 1px solid black;
     flex: 0 0 10em;
 }
+
 main>article{
     position: relative;
 }
+
 main>article>#titre {
     border-radius:  15px;
 
@@ -73,12 +77,14 @@ main>article>#titre {
     border: 1px solid;
     text-align: center;
 }
+
 main>article>#recherche{
     position: absolute;
     left: 100%;
     top: 0%;
     transform: translate(-100%,0%);
 }
+
 main>article>.contenu{
     background-color: beige;
 
@@ -88,6 +94,7 @@ main>article>.contenu{
     border-radius: 10px;
 
 }
+
 main>article>.contenu>#encart1{
     border: 1px solid black;
     background-color: yellowgreen;
@@ -101,6 +108,7 @@ main>article>.contenu>#encart1{
     border-radius: 10px;
     box-shadow: -8px 5px 8px black;
 }
+
 main>article>.contenu>#encart2{
     border: 1px solid black;
     background-color: yellowgreen;
@@ -115,6 +123,7 @@ main>article>.contenu>#encart2{
     box-shadow: black;
     box-shadow: -8px 5px 8px black;
 }
+
 main>article>.contenu>p{
     position: relative;
     bottom: 45%;
@@ -134,11 +143,13 @@ footer{
 @media screen and (width< 800px){
     #menu:hover {    
     }
+
     #menu:hover .menu{
         display: flex;
         margin-bottom: 0;
         flex-direction: column;
     }
+
     #menu:hover .menu>li{
         background-color: grey;
         border: 1px solid black;
@@ -149,9 +160,11 @@ footer{
                 text-align: left;
 
     }
+
     header{
         display: none;
     }  
+
     main{
         display: flex;
         flex-direction: column;
@@ -164,25 +177,32 @@ footer{
         background-color: blue;
         content: "=" ;
     }
+
     main>#menu>.menu{
         display: none;
     }
+
     main>#menu>.menu>li{
 
     
     }
+
     main>article>#titre{
         border-radius: 0px;
     }
+
     main>article>.contenu{
         border-radius: 0px; 
     }
+
     main>article>.contenu>.encart{
         display: none;
     }
+
     main>article>#recherche{
         display: none;
     }
+
     footer{
         display: none;
     }
