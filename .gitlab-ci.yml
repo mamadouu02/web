@@ -35,7 +35,7 @@ pages: # A special job used to upload static sites to Gitlab pages. Requires a p
         - mkdir -p public # Creation of a public directory
         - cp Exercice-01.html public/index.html # Copying the file Exercice-01.html to the public directory
         - cp Exercice-02.html public/
-        - cp Exercice-11.* public/
+        - cp Exercice-11* public/
     artifacts: # Used to specify a list of files and directories that should be attached to the job if it succeeds.
         paths: # A list of paths to files/folders that should be included in the artifact
             - public
