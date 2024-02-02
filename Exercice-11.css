@@ -131,24 +131,9 @@ footer{
 }
 
 @media screen and (width< 800px){
-    #menu:hover {    
-    }
 
-    #menu:hover .menu{
-        display: flex;
-        margin-bottom: 0;
-        flex-direction: column;
-    }
 
-    #menu:hover .menu>li{
-        background-color: grey;
-        border: 1px solid black;
-        list-style-type: none;
-        padding-right: 0;
-        margin-right: -720%;
-        margin-left: -70%;
-        text-align: left;
-    }
+
 
     header{
         display: none;
@@ -161,7 +146,7 @@ footer{
 
     main>#menu{
         display: flex;
-         flex: 0 0 2em;        
+        flex: 0 0 2em;        
         border-radius: 0px; 
         background-color: blue;
         content: "=" ;
@@ -171,10 +156,6 @@ footer{
         display: none;
     }
 
-    main>#menu>.menu>li{
-
-    
-    }
 
     main>article>#titre{
         border-radius: 0px;
@@ -194,6 +175,22 @@ footer{
 
     footer{
         display: none;
+    }
+
+    #menu:hover .menu{
+        display: flex;
+        margin-bottom: 0;
+        flex-direction: column;
+    }
+
+    #menu:hover .menu>li{
+        background-color: grey;
+        border: 1px solid black;
+        list-style-type: none;
+        padding-right: 0;
+        margin-right: -720%;
+        margin-left: -70%;
+        text-align: left;
     }
 }
 
