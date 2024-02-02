@@ -43,13 +43,10 @@ header{
      display: flex; 
     margin-left: 16%;
     border-radius:  15px;
-
     align-self: center;
-
 }
 
 #pub >*>*{
-
     border-radius:  15px;
 }
 
@@ -61,7 +58,6 @@ main{
 main>#menu {
     background-color: yellowgreen;
     border-radius:  15px;
-
     border: 1px solid black;
     flex: 0 0 10em;
 }
@@ -72,7 +68,6 @@ main>article{
 
 main>article>#titre {
     border-radius:  15px;
-
     background-color: yellowgreen;
     border: 1px solid;
     text-align: center;
@@ -87,7 +82,6 @@ main>article>#recherche{
 
 main>article>.contenu{
     background-color: beige;
-
     text-align: left;
     position: relative;
     border: 1px solid black;
@@ -98,12 +92,10 @@ main>article>.contenu{
 main>article>.contenu>#encart1{
     border: 1px solid black;
     background-color: yellowgreen;
-
     width: 10em;
     position: relative;
     left: 100%;
     top: 4ex;
-   
     transform: translate(-100%,0%);
     border-radius: 10px;
     box-shadow: -8px 5px 8px black;
@@ -112,12 +104,10 @@ main>article>.contenu>#encart1{
 main>article>.contenu>#encart2{
     border: 1px solid black;
     background-color: yellowgreen;
-
     width: 10em;
     position: relative;
     left: 100%;
     top: 8ex;
-   
     transform: translate(-100%,0%);
     border-radius: 10px;
     box-shadow: black;
@@ -157,8 +147,7 @@ footer{
         padding-right: 0;
         margin-right: -720%;
         margin-left: -70%;
-                text-align: left;
-
+        text-align: left;
     }
 
     header{

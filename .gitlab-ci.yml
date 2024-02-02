@@ -13,7 +13,7 @@ linthtml:
     artifacts:
         when: always
         paths:
-            - linthtml_report.txt
+            - html_report.txt
 
 lintcss:
     stage: lint
