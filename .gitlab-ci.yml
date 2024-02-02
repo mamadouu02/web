@@ -9,7 +9,7 @@ linthtml:
     image: node # Full name of the image that should be used.
     script:
         - npm install htmlhint
-        - npx htmlhint Exercice-01.html Exercice-02.html > html_report.txt
+        - npx htmlhint *.html > html_report.txt
     artifacts:
         when: always
         paths:
@@ -23,7 +23,7 @@ lintcss:
     script:
         - npm install stylelint stylelint-config-standard
         - npm init stylelint
-        - npx stylelint Exercice-11.css > css_report.txt
+        - npx stylelint *.css > css_report.txt
     artifacts:
         when: always
         paths:
@@ -34,9 +34,13 @@ pages: # A special job used to upload static sites to Gitlab pages. Requires a p
     script: # Shell scripts executed by the Runner
         - mkdir -p public # Creation of a public directory
         - cp Exercice-01.html public/index.html # Copying the file Exercice-01.html to the public directory
+        - cp Exercice-02.html public/
         - cp Exercice-11.* public/
     artifacts: # Used to specify a list of files and directories that should be attached to the job if it succeeds.
         paths: # A list of paths to files/folders that should be included in the artifact
             - public
 
-# Access page: https://grenoble-inp-ensimag.pages.ensimag.fr/4MMCAW6/G2/TP1_HTMLCSS/TP1HTMLCSS_ahmed_boudahmane_mamadou_thiongane
+# Access pages:
+# - Exercice 01: https://grenoble-inp-ensimag.pages.ensimag.fr/4MMCAW6/G2/TP1_HTMLCSS/TP1HTMLCSS_ahmed_boudahmane_mamadou_thiongane
+# - Exercice 02: https://grenoble-inp-ensimag.pages.ensimag.fr/4MMCAW6/G2/TP1_HTMLCSS/TP1HTMLCSS_ahmed_boudahmane_mamadou_thiongane/Exercice-02.html
+# - Exercice 11: https://grenoble-inp-ensimag.pages.ensimag.fr/4MMCAW6/G2/TP1_HTMLCSS/TP1HTMLCSS_ahmed_boudahmane_mamadou_thiongane/Exercice-11.html
