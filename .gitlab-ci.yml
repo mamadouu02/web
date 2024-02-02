@@ -2,24 +2,38 @@ stages: # Groups jobs into stages. All jobs in one stage must complete before ne
     - lint
     - deploy
 
-lint-html:
+linthtml:
     stage: lint
     tags: # Used to select runners from the list of available runners.
         - docker
     image: node # Full name of the image that should be used.
     script:
         - npm install htmlhint
-        - npx htmlhint Exercice-01.html Exercice-02.html > linthtml_report.txt
+        - npx htmlhint Exercice-01.html Exercice-02.html > html_report.txt
     artifacts:
         when: always
         paths:
             - linthtml_report.txt
+
+lintcss:
+    stage: lint
+    tags: # Used to select runners from the list of available runners.
+        - docker
+    image: node # Full name of the image that should be used.
+    script:
+        - npm install stylelint stylelint-config-standard
+        - npx stylelint Exercice-11.css > css_report.txt
+    artifacts:
+        when: always
+        paths:
+            - css_report.txt
 
 pages: # A special job used to upload static sites to Gitlab pages. Requires a public directory.
     stage: deploy
     script: # Shell scripts executed by the Runner
         - mkdir -p public # Creation of a public directory
         - cp Exercice-01.html public/index.html # Copying the file Exercice-01.html to the public directory
+        - cp Exercice-11.* public/
     artifacts: # Used to specify a list of files and directories that should be attached to the job if it succeeds.
         paths: # A list of paths to files/folders that should be included in the artifact
             - public
