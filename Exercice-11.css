@@ -131,10 +131,6 @@ footer{
 }
 
 @media screen and (width< 800px){
-
-
-
-
     header{
         display: none;
     }  
@@ -155,7 +151,6 @@ footer{
     main>#menu>.menu{
         display: none;
     }
-
 
     main>article>#titre{
         border-radius: 0px;
