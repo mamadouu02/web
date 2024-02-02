@@ -1,13 +1,10 @@
-
-
-
-header{
+header {
     display: flex;
     background-color: antiquewhite;
     justify-content: space-between;
 }
 
-#logo{
+#logo {
     display: flex;
     border: 1px solid black;
     border-radius: 10px;
@@ -15,14 +12,16 @@ header{
     width: 120px;
     height: 120px;
 }
+
 #pub {
     display: flex;
     align-items: center;
     background-color: red;
     width: 90ex;
     height: 120px;
-    
+
 }
+
 #menu {
     background-color: green;
 }

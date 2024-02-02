@@ -22,6 +22,7 @@ lintcss:
     image: node # Full name of the image that should be used.
     script:
         - npm install stylelint stylelint-config-standard
+        - npm init stylelint
         - npx stylelint Exercice-11.css > css_report.txt
     artifacts:
         when: always
