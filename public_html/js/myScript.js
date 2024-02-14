@@ -28,17 +28,17 @@ class Cell {
     #j
     #state = 0
     #previousState = 0
-
-    #shape = paper.Path.Circle({
-        center: life.coords(this.#i, this.#j),
-        radius: cellSize / 2,
-        fillColor: 'white',
-        strokeColor: 'blue'
-    })
+    #shape
 
     constructor(i, j) {
         this.#i = i
         this.#j = j
+        this.#shape = paper.Path.Circle({
+            center: life.coords(this.#i, this.#j),
+            radius: cellSize / 2,
+            fillColor: 'white',
+            strokeColor: 'blue'
+        })
     }
 
     live() {
