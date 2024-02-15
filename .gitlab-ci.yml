@@ -1,0 +1,27 @@
+stages: # Groups jobs into stages. All jobs in one stage must complete before next stage is executed.
+    - lint
+    - deploy
+
+lintjs:
+    stage: lint
+    tags: # Used to select runners from the list of available runners.
+        - docker
+    image: node # Full name of the image that should be used.
+    script:
+        - npm install eslint
+        - npx eslint Exercice*.js public_html/js/myScript.js > js_report.txt
+    artifacts:
+        when: always
+        paths:
+            - js_report.txt
+
+pages: # A special job used to upload static sites to Gitlab pages. Requires a public directory.
+    stage: deploy
+    script: # Shell scripts executed by the Runner
+        - mkdir -p public # Creation of a public directory
+        - cp public_html/index.html public/index.html
+        - cp -r public_html/js public/js
+        - cp Exercice* public/
+    artifacts: # Used to specify a list of files and directories that should be attached to the job if it succeeds.
+        paths: # A list of paths to files/folders that should be included in the artifact
+            - public
