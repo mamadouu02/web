@@ -9,17 +9,11 @@ lint-js:
     image: node # Full name of the image that should be used.
     script:
         - npm install eslint
-        - npx eslint Exercice-31.js > Exercice-31_report.txt
-        - npx eslint Exercice-32.js > Exercice-32_report.txt
-        - npx eslint Exercice-33.js > Exercice-33_report.txt
-        - npx eslint public_html/js/myScript.js > Conway_report.txt
+        - npx eslint Exercice*.js public_html/js/myScript.js > js_report.txt
     artifacts:
         when: always
         paths:
-            - Exercice-31_report.txt
-            - Exercice-32_report.txt
-            - Exercice-33_report.txt
-            - Conway_report.txt
+            - js_report.txt
 
 pages: # A special job used to upload static sites to Gitlab pages. Requires a public directory.
     stage: deploy
@@ -35,16 +29,10 @@ pages: # A special job used to upload static sites to Gitlab pages. Requires a p
 badges:
     stage: deploy
     script:
-        - pip install anybadge
-        - PATH=$HOME/.local/bin:$PATH
-        - export PATH
         - ./genereBadges.sh
     dependencies:
         - lint-js
     artifacts:
         paths:
-            - Exercice-31_lint.svg
-            - Exercice-32_lint.svg
-            - Exercice-33_lint.svg
-            - Conway_lint.svg
+            - badge_lint.svg
     when: always
