@@ -30,11 +30,8 @@ badges:
     stage: deploy
     tags:
         - docker
-    image: ubuntu
+    image: node
     script:
-        - pip install anybadge
-        - PATH=.local/bin:$PATH
-        - export PATH
         - ./genereBadges.sh
     dependencies: # Specify a list of job names from earlier stages from which artifacts should be loaded.
         - lint-js
