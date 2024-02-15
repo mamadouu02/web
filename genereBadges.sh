@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 NBERR=$(grep -e "  error" js_report.txt | wc -l)
 NBWARN=$(grep -e "  warning" js_report.txt | wc -l)
