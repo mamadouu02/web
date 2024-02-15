@@ -17,25 +17,21 @@ lint-js:
 
 pages: # A special job used to upload static sites to Gitlab pages. Requires a public directory.
     stage: deploy
-    script: # Shell scripts executed by the Runner
-        - mkdir -p public # Creation of a public directory
+    script: # Shell scripts executed by the Runner.
+        - mkdir -p public # Creation of a public directory.
         - cp public_html/index.html public/index.html
         - cp -r public_html/js public/js
         - cp Exercice* public/
     artifacts: # Used to specify a list of files and directories that should be attached to the job if it succeeds.
-        paths: # A list of paths to files/folders that should be included in the artifact
+        paths: # A list of paths to files/folders that should be included in the artifact.
             - public
 
 badges:
     stage: deploy
-    tags:
-        - docker
     script:
-        - pip3 install anybadge
-        - PATH=.local/bin:$PATH
-        - export PATH
+        - chmod u+x genereBadges.sh
         - ./genereBadges.sh
-    dependencies:
+    dependencies: # Specify a list of job names from earlier stages from which artifacts should be loaded.
         - lint-js
     artifacts:
         paths:
