@@ -28,8 +28,9 @@ pages: # A special job used to upload static sites to Gitlab pages. Requires a p
 
 badges:
     stage: deploy
+    tags:
+        - docker
     script:
-        - sudo apt install python3-pip
         - pip3 install anybadge
         - PATH=.local/bin:$PATH
         - export PATH
