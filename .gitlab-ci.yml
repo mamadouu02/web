@@ -29,6 +29,9 @@ pages: # A special job used to upload static sites to Gitlab pages. Requires a p
 badges:
     stage: deploy
     script:
+        - pip3 install anybadge
+        - PATH=$HOME/.local/bin:$PATH
+        - export PATH
         - ./genereBadges.sh
     dependencies:
         - lint-js
