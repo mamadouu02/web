@@ -32,8 +32,7 @@ badges:
         - docker
     image: node
     script:
-        - apt install python3-pip
-        - pip3 install anybadge
+        - pip install anybadge
         - PATH=.local/bin:$PATH
         - export PATH
         - ./genereBadges.sh
