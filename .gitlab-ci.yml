@@ -2,7 +2,7 @@ stages: # Groups jobs into stages. All jobs in one stage must complete before ne
     - lint
     - deploy
 
-lintjs:
+lint-js:
     stage: lint
     tags: # Used to select runners from the list of available runners.
         - docker
@@ -25,3 +25,14 @@ pages: # A special job used to upload static sites to Gitlab pages. Requires a p
     artifacts: # Used to specify a list of files and directories that should be attached to the job if it succeeds.
         paths: # A list of paths to files/folders that should be included in the artifact
             - public
+
+badges:
+    stage: deploy
+    script:
+        - ./genereBadges.sh
+    dependencies:
+        - lint-js
+    artifacts:
+        when: always
+        paths:
+            - badge_lint.svg
