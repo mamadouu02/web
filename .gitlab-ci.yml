@@ -30,7 +30,7 @@ badges:
     stage: deploy
     script:
         - pip install anybadge
-        - PATH=.local/bin:"$PATH"
+        - PATH=$HOME/.local/bin:$PATH
         - export PATH
         - ./genereBadges.sh
     dependencies:

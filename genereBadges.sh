@@ -1,7 +1,7 @@
 #!/bin/bash
 
-NBERR=$(grep -e "^error" js_report.txt | wc -l)
-NBWARN=$(grep -e "^warning" js_report.txt | wc -l)
+NBERR=$(grep -e "  error" js_report.txt | wc -l)
+NBWARN=$(grep -e "  warning" js_report.txt | wc -l)
 color="green"
 
 if [[ $NBERR > 0 ]]; then
@@ -12,4 +12,4 @@ else
     fi
 fi
 
-anybadge -o -l "LINT" -v "$NBERR $NBWARN" -c "$color" -f "badge_lint.svg"
+anybadge -o -l "lint-js" -v "$NBERR $NBWARN" -c "$color" -f "badge_lint.svg"
