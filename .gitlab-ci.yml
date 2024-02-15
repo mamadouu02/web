@@ -42,9 +42,9 @@ badges:
     dependencies:
         - lint-js
     artifacts:
-        when: always
         paths:
             - Exercice-31_lint.svg
             - Exercice-32_lint.svg
             - Exercice-33_lint.svg
             - Conway_lint.svg
+    when: always
