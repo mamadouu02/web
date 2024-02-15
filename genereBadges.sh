@@ -12,4 +12,4 @@ else
     fi
 fi
 
-anybadge -o -l "lint-js" -v "$NBERR $NBWARN" -c "$color" -f "badge_lint.svg"
+curl -o badge_lint.svg "https://img.shields.io/badge/lint--js-$NBERR%20error%20$NBWARN%20warning-$color"
