@@ -28,11 +28,11 @@ pages: # A special job used to upload static sites to Gitlab pages. Requires a p
 
 badges:
     stage: deploy
-    tags:
-        - docker
-    image: node
     script:
         - apt update
+        - pip3 install anybadge
+        - PATH=.local/bin:$PATH
+        - export PATH
         - ./genereBadges.sh
     dependencies: # Specify a list of job names from earlier stages from which artifacts should be loaded.
         - lint-js
