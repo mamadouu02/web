@@ -56,11 +56,6 @@ const life = {
                     }
                 }
 
-                if (i == 4 && j == 5) {
-                    console.log(cell.getPreviousState())
-                    console.log(aliveNeighbours)
-                }
-
                 if (cell.getPreviousState()) {
                     if (aliveNeighbours < 2 || aliveNeighbours > 3) {
                         cell.die()

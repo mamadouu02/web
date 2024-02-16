@@ -12,4 +12,4 @@ else
     fi
 fi
 
-curl -o badge_lint.svg "https://img.shields.io/badge/lint--js-$NBERR%20error%20$NBWARN%20warning-$color"
+curl -o badge_lint.svg "https://img.shields.io/badge/lint--js-$NBERR%20errors,%20$NBWARN%20warnings-$color"
