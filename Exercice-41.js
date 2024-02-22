@@ -1,4 +1,4 @@
-function lifo_push(event) {
+function lifo_push() {
     const item = document.getElementById("newItem")
 
     if (item.value) {
@@ -12,7 +12,7 @@ function lifo_push(event) {
     }
 }
 
-function lifo_pop(event) {
+function lifo_pop() {
     const lifo = document.getElementById("lifo")
     const li = lifo.querySelector("li:first-child")
 
@@ -23,7 +23,7 @@ function lifo_pop(event) {
     }
 }
 
-function lifo_peek(event) {
+function lifo_peek() {
     const li = document.getElementById("lifo").querySelector("li:first-child")
 
     if (li) {
