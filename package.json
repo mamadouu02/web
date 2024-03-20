@@ -1,0 +1,18 @@
+{
+  "name": "tp4_frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Exercice-50.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^13.7.0",
+    "serve": "^14.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0"
+  }
+}
