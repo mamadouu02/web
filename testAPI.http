@@ -1,0 +1,26 @@
+@backend = https://cawrest.ensimag.fr
+@token = eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoidGhpb25nYW0ifQ.jyzShz8KeCz-m_IsWlmiR1Y8FdAhyEDzOqn5dOw2mow
+@login = thiongam
+
+###
+
+GET {{backend}}/whoami HTTP/1.1
+x-access-token: {{token}}
+
+###
+
+POST {{backend}}/bmt/{{login}}/reinit HTTP/1.1
+x-access-token: {{token}}
+
+###
+
+GET {{backend}}/bmt/{{login}}/tags HTTP/1.1
+x-access-token: {{token}}
+
+###
+
+POST {{backend}}/bmt/{{login}}/tags HTTP/1.1
+x-access-token: {{token}}
+Content-Type: application/x-www-form-urlencoded
+
+data={"name":"tagDeTest"}
