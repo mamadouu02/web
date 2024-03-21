@@ -14,7 +14,7 @@ fi
 
 curl -o badge_lint.svg "https://img.shields.io/badge/lint--js-$NBERR%20errors,%20$NBWARN%20warnings-$color"
 
-if grep -e "All specs passed!" test_report.txt; then
+if grep -q -e "All specs passed!" test_report.txt; then
     res="PASSED"
     color="green"
 else

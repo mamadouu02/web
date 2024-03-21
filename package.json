@@ -1,7 +1,6 @@
 {
   "name": "tp4_frontend",
   "version": "1.0.0",
-  "description": "",
   "main": "Exercice-50.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,5 +13,10 @@
   },
   "devDependencies": {
     "eslint": "^8.57.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.ensimag.fr:grenoble-inp-ensimag/4MMCAW6/G2/TP4_Frontend/TP4Frontend_ahmed_boudahmane_mamadou_thiongane.git"
+  },
+  "description": ""
 }
