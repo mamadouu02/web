@@ -56,3 +56,5 @@ badges:
       - badge_lint.svg
       - badge_test.svg
   when: always
+
+# Access pages : https://tp4frontend-ahmed-boudahmane-mamadou-thiongane-g-81deb957518918.pages.ensimag.fr/
