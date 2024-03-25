@@ -1,29 +1,28 @@
+const backend = "https://cawrest.ensimag.fr"
+const wsBase = `${backend}/bmt/boudahma/`
+
 describe("Test de l'interface", () => {
-    beforeEach(() => {
+    it("Modification de tag", () => {
+        cy.intercept('GET', wsBase + 'tags', { fixture: 'tags.json' }).as('getTags')
+
         cy.visit('http://localhost:3000/Exercice-50.html')
-    })
 
-    it("Identification de l'utilisateur", () => {
-        cy.get('span.identity').should('have.text', 'boudahma')
-    })
+        cy.wait('@getTags')
 
-    it("Affichage des tags", () => {
-        // TODO
-    })
+        cy.get('#menu .tags').click()
+        cy.get('#items .tag.item').first().click()
 
-    it("Ajout de tags", () => {
-        // TODO
-    })
+        cy.get('#items .tag.item.selected input[type="text"]').clear().type('JAVASCRIPT!!!')
 
-    it("Edition de tags", () => {
-        // TODO
-    })
+        cy.intercept('PUT', wsBase + 'tags/*').as('modifyTag')
+        cy.intercept('GET', wsBase + 'tags', { fixture: 'modified_tags.json' }).as('getModifiedTags')
 
-    it("Modification de tags", () => {
-        // TODO
-    })
+        cy.get('#items .tag.item.selected #modifyName').click()
 
-    it("Suppression de tags", () => {
-        // TODO
+        cy.wait('@modifyTag').its('response.statusCode').should('eq', 200)
+        cy.wait('@getModifiedTags')
+
+        cy.get('#menu .tags').click()
+        cy.get('#items .tag.item').first().should('contain', 'JAVASCRIPT!!!')
     })
 })
