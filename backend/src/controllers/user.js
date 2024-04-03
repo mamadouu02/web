@@ -36,7 +36,7 @@ module.exports = {
     const { name, email, password } = req.body
     console.log(req.body)
     if (!validPassword(password)) throw new CodeError('Weak password!', status.BAD_REQUEST)
-    await userModel.create({ name, email, passhash: await bcrypt.hash(password, 2) })
+    await userModel.create({ name, email, passhash: await bcrypt.hash(password, 2), isAdmin: false })
     res.json({ status: true, message: 'User Added' })
   },
   async getUsers (req, res) {
