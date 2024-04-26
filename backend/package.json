@@ -5,11 +5,11 @@
     "main": "src/server.js",
     "scripts": {
         "setup": "npm install && npm run doc && npm run updatedb",
-        "updatedb": "rm -f bd.sqlite && node src/util/updatedb.js",
+        "updatedb": "rm -f ${DB:=bd.sqlite} && node src/util/updatedb.js",
         "doc": "node src/util/swagger.js",
         "start": "npm run doc && npm run updatedb  && node src/server.js",
         "startdev": "npm run doc && nodemon src/server.js",
-        "test": "rm -f bdtest.sqlite && DB=bdtest.sqlite npm run updatedb && DB=bdtest.sqlite jest --coverage"
+        "test": "DB=bdtest.sqlite npm run updatedb && DB=bdtest.sqlite jest --coverage"
     },
     "keywords": [
         "express",
