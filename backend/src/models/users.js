@@ -26,7 +26,8 @@ const users = db.define('users', {
     }
   },
   isAdmin: {
-    type: Sequelize.BOOLEAN
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 }, { timestamps: false })
 module.exports = users

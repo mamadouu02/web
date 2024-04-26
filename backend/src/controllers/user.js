@@ -11,6 +11,42 @@ function validPassword (password) {
   return /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/.test(password)
 }
 
+async function verifieTokenPresent (req, res, next) {
+  // Code vérifiant qu'il y a bien un token dans l'entête
+  // Le commentaire suivant couplé à une définition d'apiKeyAuth permet de générer la documentation avec swagger_autogen
+  // cf. https://swagger-autogen.github.io/docs/swagger-2/authentication/api-keys-token/
+  // #swagger.security = [{"apiKeyAuth": []}]
+  if (!req.headers || !Object.prototype.hasOwnProperty.call(req.headers, 'x-access-token')) {
+    throw new CodeError('Token missing', status.FORBIDDEN)
+  }
+  // Code vérifiant la validité du token
+  if (!jws.verify(req.headers['x-access-token'], 'HS256', TOKENSECRET)) {
+    throw new CodeError('Token invalid', status.FORBIDDEN)
+  }
+  // Le payload du token contient le login de l'utilisateur
+  // On modifie l'objet requête pour mettre le login à disposition pour les middleware suivants
+  req.login = jws.decode(req.headers['x-access-token']).payload
+  // On vérifie que l'utilisateur présent dans le token existe dans la base de données
+  const user = await userModel.findOne({ where: { email: req.login } })
+  if (!user) {
+    throw new CodeError('The user in the token does not exist')
+  }
+  // On appelle la fonction middleware suivante :
+  next()
+}
+
+async function verifieAdmin (req, res, next) {
+  // Code vérifiant que le login est admin (présent si une fonction middleware
+  // a au préalable ajouté le login dans req)
+  const user = await userModel.findOne({ where: { email: req.login } })
+  if (!user.isAdmin) {
+    // Provoque une réponse en erreur avec un code de retour 403
+    throw new CodeError('Forbidden', status.FORBIDDEN)
+  }
+  // On appelle la fonction middleware suivante que si la condition est vérifiée
+  next()
+}
+
 module.exports = {
   async login (req, res) {
     // #swagger.tags = ['Users']
@@ -36,7 +72,7 @@ module.exports = {
     const { name, email, password } = req.body
     console.log(req.body)
     if (!validPassword(password)) throw new CodeError('Weak password!', status.BAD_REQUEST)
-    await userModel.create({ name, email, passhash: await bcrypt.hash(password, 2), isAdmin: false })
+    await userModel.create({ name, email, passhash: await bcrypt.hash(password, 2) })
     res.json({ status: true, message: 'User Added' })
   },
   async getUsers (req, res) {
@@ -65,6 +101,15 @@ module.exports = {
     await userModel.update(userModified, { where: { id: req.params.id } })
     res.json({ status: true, message: 'User updated' })
   },
+  async updatePassword (req, res) {
+    // #swagger.tags = ['Users']
+    // #swagger.summary = 'Update password'
+    // #swagger.parameters['obj'] = { in: 'body', schema: { $password: '1m02P@SsF0rt!' }}
+    if (!has(req.body, 'password')) throw new CodeError('You must specify the password', status.BAD_REQUEST)
+    if (!validPassword(req.body.password)) throw new CodeError('Weak password!', status.BAD_REQUEST)
+    await userModel.update({ passhash: await bcrypt.hash(req.body.password, 2) }, { where: { email: req.login } })
+    res.json({ status: true, message: 'Password updated' })
+  },
   async deleteUser (req, res) {
     // TODO : verify if the token is valid and correspond to an admin
     // #swagger.tags = ['Users']
@@ -73,5 +118,7 @@ module.exports = {
     const { id } = req.params
     await userModel.destroy({ where: { id } })
     res.json({ status: true, message: 'User deleted' })
-  }
+  },
+  verifieTokenPresent,
+  verifieAdmin
 }

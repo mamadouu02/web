@@ -9,7 +9,7 @@ fetch("http://localhost:3000/login", {
     "content-type": "application/json"
   },
   "body": {
-    "email": "bob@gmail.com",
+    "email": "John.Doe@acme.com",
     "password": "12345"
   }
 })
