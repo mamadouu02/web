@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const user = require('../controllers/user.js')
 
-router.use('/api', user.verifieTokenPresent)
-router.use('/api/users/:id', user.verifieAdmin)
+router.use('/api', user.checkToken)
+router.use('/api/users/:id', user.checkAdmin)
 
 router.get('/api/users', user.getUsers)
 router.post('/register', user.newUser)

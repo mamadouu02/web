@@ -4,7 +4,7 @@
 
 ```js
 fetch("http://localhost:3000/login", {
-  "method": "GET",
+  "method": "POST",
   "headers": {
     "content-type": "application/json"
   },
