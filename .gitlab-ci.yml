@@ -1,7 +1,23 @@
 stages:
+  - lint
   - sonarqube-check
   - security-report
+  - test
   - deploy
+
+lint-js:
+  stage: lint
+  tags:
+    - docker
+  image: node
+  script:
+    - npm install eslint
+    - npx eslint backend/src/{controllers,models,routes}/*.js > js_report.txt
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - js_report.txt
 
 sonarqube-report:
   stage: sonarqube-check
@@ -46,6 +62,20 @@ semgrep-security-report:
       - "*.report.txt"
       - "*.badge.svg"
       - gl-sast-semgrep-report.json
+
+api-test:
+  stage: test
+  tags:
+    - docker
+  image: node
+  script:
+    - cd backend
+    - npm i
+    - npm run test > test_report.txt
+  artifacts:
+    when: always
+    paths:
+      - test_report.txt
 
 # Job pour exposer l'API sur Scalingo
 # URL d'exposition de l'API : https://web-application.osc-fr1.scalingo.io/
