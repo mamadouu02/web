@@ -23,7 +23,9 @@ async function checkToken (req, res, next) {
   }
   // Le payload du token contient le login de l'utilisateur
   // On modifie l'objet requête pour mettre le login à disposition pour les middleware suivants
-  req.login = jws.decode(req.headers['x-access-token']).payload
+  const login = jws.decode(req.headers['x-access-token']).payload
+  const user = await userModel.findOne({ where: { email: login } })
+  req.user = user
   // On appelle la fonction middleware suivante :
   next()
 }
@@ -31,16 +33,17 @@ async function checkToken (req, res, next) {
 async function checkAdmin (req, res, next) {
   // Code vérifiant que le login est admin (présent si une fonction middleware
   // a au préalable ajouté le login dans req)
-  const user = await userModel.findOne({ where: { email: req.login } })
-  if (!user.isAdmin) {
+  if (!req.user.isAdmin) {
     // Provoque une réponse en erreur avec un code de retour 403
-    throw new CodeError('Forbidden', status.FORBIDDEN)
+    throw new CodeError('You must be an admin', status.FORBIDDEN)
   }
   // On appelle la fonction middleware suivante que si la condition est vérifiée
   next()
 }
 
 module.exports = {
+  checkToken,
+  checkAdmin,
   async login (req, res) {
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Verify credentials of user using email and password and return token'
@@ -81,7 +84,7 @@ module.exports = {
     // #swagger.parameters['obj'] = { in: 'body', schema: { $password: '1m02P@SsF0rt!' }}
     if (!has(req.body, 'password')) throw new CodeError('You must specify the password', status.BAD_REQUEST)
     if (!validPassword(req.body.password)) throw new CodeError('Weak password!', status.BAD_REQUEST)
-    await userModel.update({ passhash: await bcrypt.hash(req.body.password, 2) }, { where: { email: req.login } })
+    await userModel.update({ passhash: await bcrypt.hash(req.body.password, 2) }, { where: { email: req.user.email } })
     res.json({ status: true, message: 'Password updated' })
   },
   async updateUser (req, res) {
@@ -111,7 +114,5 @@ module.exports = {
     const { id } = req.params
     await userModel.destroy({ where: { id } })
     res.json({ status: true, message: 'User deleted' })
-  },
-  checkToken,
-  checkAdmin
+  }
 }
