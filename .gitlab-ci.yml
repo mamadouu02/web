@@ -11,8 +11,9 @@ lint-js:
     - docker
   image: node
   script:
+    - cd backend
     - npm install eslint
-    - npx eslint backend/src/{controllers,models,routes}/*.js > js_report.txt
+    - npx eslint src/{controllers,models,routes}/*.js > js_report.txt
   allow_failure: true
   artifacts:
     when: always
