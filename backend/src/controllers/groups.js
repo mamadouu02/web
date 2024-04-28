@@ -3,7 +3,6 @@ const groupModel = require('../models/groups.js')
 const userModel = require('../models/users.js')
 const has = require('has-keys')
 const CodeError = require('../util/CodeError.js')
-require('mandatoryenv').load(['TOKENSECRET'])
 
 async function checkGroup (req, res, next) {
   // Code vérifiant que le groupe existe
@@ -43,7 +42,7 @@ async function checkGroupAccess (req, res, next) {
 
 async function checkOwnerAdmin (req, res, next) {
   // Code vérifiant que le login est propriétaire ou admin
-  if (await req.group.hasMember(req.user)) {
+  if (!(req.group.ownerId === req.user.id || req.user.isAdmin)) {
     // Provoque une réponse en erreur avec un code de retour 403
     throw new CodeError('You must be the owner of the group or admin', status.FORBIDDEN)
   }
