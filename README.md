@@ -1,7 +1,7 @@
 ---
 title: Projet React 
 author:  
-- A compléter avec vos noms
+- Ahmed Boudahmane, Mamadou Thiongane
 --- 
 
 ## Cahier des charges
@@ -128,6 +128,46 @@ User "1" -- "n"  Group : create and own
 
 Indiquer ici l'organisation de votre code. Et les choix faits pour le backend.
 
+```bash
+# exemple d'arborescence commentée avec la commande 'tree'
+login@pc nomProjet % tree --charset=ascii frontend
+.
+|-- README.md
+|-- index.html
+|-- package.json
+|-- src
+|   |-- App.css
+|   |-- App.jsx
+|   |-- components
+|   |   `-- ComposantX.jsx # Formulaire de login
+|   |-- index.css # feuille de style
+|   |-- main.jsx
+|   |-- utils
+|   `-- views
+|       `-- ViewX.jsx
+```
+
+```bash
+# exemple d'arborescence commentée
+tree --charset=ascii backend                                                                                                          
+.
+|-- src
+|   |-- __tests__
+|   |   `-- testX.js
+|   |-- app.js
+|   |-- controllers
+|   |   `-- controllerX.js #controlleur de api/group:id
+|   |-- models
+|   |   `-- modelX.js #modèle de user
+|   |-- routes
+|   |   `-- routeX.js #route gérant api/group{/:id}
+|   |-- server.js
+|   `-- util
+|       |-- utilX.js #initialisation de la BD
+|-- swagger_output.json
+`-- bd.sqlite
+```
+
 ### Gestion des rôles et droits
 
 Expliquer ici les différents rôles mis en place, et comment ils sont gérés dans votre code.
@@ -154,3 +194,11 @@ Décrivez ici les éléments mis en place au niveau de l'intégration continue
 ## Installation
 
 Donner les éléments pour installer l'application sur une machine nue à partir de votre dépôt
+
+```bash
+cd frontend; npm install; npm run dev #frontend
+commande # pour lancer les tests frontend
+cd backend; npm install; npm run start #backend
+commande # pour lancer les tests backend ?
+firefox https://xxx.scalingo.ioscalingo/docs # pour accéder à la doc scalingo si déployé en ligne
+```

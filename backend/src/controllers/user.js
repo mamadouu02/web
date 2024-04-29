@@ -91,9 +91,9 @@ module.exports = {
     // TODO : verify if the token is valid and correspond to an admin
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Mettre à jour les informations de l utilisateur (réservé à un utilisateur administrateur)'
-    // #swagger.parameters['obj'] = { in: 'body', schema: { $name: 'John Doe', $email: 'John.Doe@acme.com', $password: '1m02P@SsF0rt!' }}
+    // #swagger.parameters['obj'] = { in: 'body', schema: { $name: 'John Doe', $email: 'John.Doe@acme.com', $password: '1m02P@SsF0rt!', $isAdmin: 'false' }}
     const userModified = {}
-    for (const field of ['name', 'email', 'password']) {
+    for (const field of ['name', 'email', 'password', 'isAdmin']) {
       if (has(req.body, field)) {
         if (field === 'password') {
           userModified.passhash = await bcrypt.hash(req.body.password, 2)
