@@ -13,12 +13,17 @@ lint-js:
   script:
     - cd backend
     - npm install eslint
-    - npx eslint src/{controllers,models,routes}/*.js > js_report.txt
+    - npx eslint src/{controllers,models,routes}/*.js > eslint.report.txt
+    - "NBERR=$(grep -e '  error' eslint.report.txt | wc -l)"
+    - "NBWARN=$(grep -e '  warning' eslint.report.txt | wc -l)"
+    - "[[ $NBERR > 0 ]] && color='red' || [[ $NBWARN > 0 ]] && color='orange'"
+    - "curl -o eslint.badge.svg 'https://img.shields.io/badge/eslint-$NBERR%20errors,%20$NBWARN%20warnings-$color'"
   allow_failure: true
   artifacts:
     when: always
     paths:
-      - js_report.txt
+      - eslint.report.txt
+      - eslint.badge.svg
 
 sonarqube-report:
   stage: sonarqube-check
@@ -72,11 +77,14 @@ api-test:
   script:
     - cd backend
     - npm i
-    - npm run test > test_report.txt
+    - npm run test > api-test.report.txt 2>&1
+    - "grep -q -e 'failed' api-test.report.txt && res='FAILED' && color='red' || res='PASSED' && color='green'"
+    - "curl -o api-test.badge.svg 'https://img.shields.io/badge/API%20test-$res-$color'"
   artifacts:
     when: always
     paths:
-      - test_report.txt
+      - api-test.report.txt
+      - api-test.badge.svg
 
 # Job pour exposer l'API sur Scalingo
 # URL d'exposition de l'API : https://web-application.osc-fr1.scalingo.io/
