@@ -15,9 +15,8 @@ lint-js:
     - npm install eslint
     - npx eslint src/{controllers,models,routes}/*.js > ../eslint.report.txt
     - cd ..
-    - "NBERR=$(grep -e '  error' eslint.report.txt | wc -l || true)"
-    - "NBWARN=$(grep -e '  warning' eslint.report.txt | wc -l || true)"
-    - "[[ $NBERR > 0 ]] && color='red' || [[ $NBWARN > 0 ]] && color='orange' || true"
+    - "NBERR=$(grep -e '  error' eslint.report.txt | wc -l || true); NBWARN=$(grep -e '  warning' eslint.report.txt | wc -l || true); color='success'"
+    - "[[ $NBERR > 0 ]] && color='red' || [[ $NBWARN > 0 ]] && color='yellow' || true"
     - "curl -o eslint.badge.svg https://img.shields.io/badge/eslint-$NBERR%20errors,%20$NBWARN%20warnings-$color"
   allow_failure: true
   artifacts:
@@ -80,7 +79,7 @@ api-test:
     - npm i
     - npm run test > ../api-test.report.txt 2>&1
     - cd ..
-    - "grep -q -e 'failed' api-test.report.txt && res='FAILED' && color='red' || res='PASSED' && color='green' || true"
+    - "grep -q -e 'failed' api-test.report.txt && res='FAILED' && color='failed' || res='PASSED' && color='success' || true"
     - "curl -o api-test.badge.svg https://img.shields.io/badge/API%20test-$res-$color"
   artifacts:
     when: always
