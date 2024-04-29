@@ -18,7 +18,7 @@ lint-js:
     - "NBERR=$(grep -e '  error' eslint.report.txt | wc -l || true)"
     - "NBWARN=$(grep -e '  warning' eslint.report.txt | wc -l || true)"
     - "[[ $NBERR > 0 ]] && color='red' || [[ $NBWARN > 0 ]] && color='orange' || true"
-    - "curl -o eslint.badge.svg 'https://img.shields.io/badge/eslint-$NBERR%20errors,%20$NBWARN%20warnings-$color'"
+    - "curl -o eslint.badge.svg https://img.shields.io/badge/eslint-$NBERR%20errors,%20$NBWARN%20warnings-$color"
   allow_failure: true
   artifacts:
     when: always
@@ -81,7 +81,7 @@ api-test:
     - npm run test > ../api-test.report.txt 2>&1
     - cd ..
     - "grep -q -e 'failed' api-test.report.txt && res='FAILED' && color='red' || res='PASSED' && color='green' || true"
-    - "curl -o api-test.badge.svg 'https://img.shields.io/badge/API%20test-$res-$color'"
+    - "curl -o api-test.badge.svg https://img.shields.io/badge/API%20test-$res-$color"
   artifacts:
     when: always
     paths:
