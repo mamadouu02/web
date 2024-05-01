@@ -10,12 +10,8 @@ function LoginForm({ onValidInfo }) {
     function errorMessage() {
         let err = ""
 
-        if (!login.match(/[a-z0-9]{3,10}/)) {
-            err += "Login invalide. "
-        }
-        
-        if (password.length < 6) {
-            err += "Mot de passe trop court."
+        if (!login.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+            err += "Email invalide."
         }
 
         return err
@@ -30,10 +26,10 @@ function LoginForm({ onValidInfo }) {
     return (
         <fieldset>
             <legend>Se connecter</legend>
-            <InputField label='Email :' type='text' value={login} onChangeFunction={setLogin}/>
-            <InputField label='Password :' type='password' value={password} onChangeFunction={setPassword}/>
+            <InputField label='Email :' type='text' value={login} onChangeFunction={setLogin} />
+            <InputField label='Password :' type='password' value={password} onChangeFunction={setPassword} />
             <Button clickFonction={connect} title='OK' />
-            <div style={{color:"red"}}> {errorMessage()}</div>
+            <div style={{ color: "red" }}> {errorMessage()}</div>
         </fieldset>
     )
 }

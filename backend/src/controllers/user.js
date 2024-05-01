@@ -72,7 +72,6 @@ module.exports = {
     res.json({ status: true, message: 'User Added' })
   },
   async getUsers (req, res) {
-    // TODO : verify if the token is valid...
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Get All users'
     const data = await userModel.findAll({ attributes: ['id', 'name', 'email'] })
@@ -88,7 +87,6 @@ module.exports = {
     res.json({ status: true, message: 'Password updated' })
   },
   async updateUser (req, res) {
-    // TODO : verify if the token is valid and correspond to an admin
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Mettre à jour les informations de l utilisateur (réservé à un utilisateur administrateur)'
     // #swagger.parameters['obj'] = { in: 'body', schema: { $name: 'John Doe', $email: 'John.Doe@acme.com', $password: '1m02P@SsF0rt!', $isAdmin: 'false' }}
@@ -107,7 +105,6 @@ module.exports = {
     res.json({ status: true, message: 'User updated' })
   },
   async deleteUser (req, res) {
-    // TODO : verify if the token is valid and correspond to an admin
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Delete User'
     if (!has(req.params, 'id')) throw new CodeError('You must specify the id', status.BAD_REQUEST)

@@ -7,7 +7,8 @@ function InputField({ label, type, value, onChangeFunction }) {
             <input
                 type={type}
                 value={value}
-                onChange={(e) => onChangeFunction(e.target.value)} />
+                onChange={(e) => onChangeFunction(e.target.value)}
+            />
         </>
     )
 }
@@ -16,7 +17,7 @@ InputField.propTypes = {
     label: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-    onChangeFunction: PropTypes.func.isRequired,
+    onChangeFunction: PropTypes.func.isRequired
 }
 
 export default InputField
