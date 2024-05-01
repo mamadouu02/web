@@ -54,7 +54,7 @@ module.exports = {
     if (user) {
       if (await bcrypt.compare(password, user.passhash)) {
         const token = jws.sign({ header: { alg: 'HS256' }, payload: email, secret: TOKENSECRET })
-        res.json({ status: true, message: 'Login/Password ok', token })
+        res.json({ status: true, message: 'Login/Password ok', token, name: user.name })
         return
       }
     }

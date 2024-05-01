@@ -95,6 +95,25 @@ A compléter
 
 Indiquer ici l'organisation de votre code. Et les choix faits pour le frontend.
 
+```bash
+# exemple d'arborescence commentée avec la commande 'tree'
+login@pc nomProjet % tree --charset=ascii frontend
+.
+|-- README.md
+|-- index.html
+|-- package.json
+|-- src
+|   |-- App.css
+|   |-- App.jsx
+|   |-- components
+|   |   `-- ComposantX.jsx # Formulaire de login
+|   |-- index.css # feuille de style
+|   |-- main.jsx
+|   |-- utils
+|   `-- views
+|       `-- ViewX.jsx
+```
+
 ### Backend
 
 #### Schéma de votre base de donnée
@@ -127,25 +146,6 @@ User "1" -- "n"  Group : create and own
 #### Architecture de votre code
 
 Indiquer ici l'organisation de votre code. Et les choix faits pour le backend.
-
-```bash
-# exemple d'arborescence commentée avec la commande 'tree'
-login@pc nomProjet % tree --charset=ascii frontend
-.
-|-- README.md
-|-- index.html
-|-- package.json
-|-- src
-|   |-- App.css
-|   |-- App.jsx
-|   |-- components
-|   |   `-- ComposantX.jsx # Formulaire de login
-|   |-- index.css # feuille de style
-|   |-- main.jsx
-|   |-- utils
-|   `-- views
-|       `-- ViewX.jsx
-```
 
 ```bash
 # exemple d'arborescence commentée

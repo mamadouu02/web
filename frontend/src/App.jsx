@@ -1,33 +1,20 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
+import { AppContext } from './AppContext'
+import Accueil from './views/Accueil'
+import LoginView from './views/LoginView'
 import './App.css'
 
 function App() {
-  const emailRef = useRef(null)
-  const passwordRef = useRef(null)
   const [token, setToken] = useState(null)
-
-  async function login() {
-    const res = await
-      (await fetch("https://web-application.osc-fr1.scalingo.io/login",
-        {
-          method: 'POST',
-          headers: { 'Content-type': 'application/json' },
-          body: JSON.stringify({ email: emailRef.current.value, password: passwordRef.current.value })
-        }
-      )).json()
-    setToken(res.token)
-  }
+  const [name, setName] = useState(null)
+  const backend = 'http://localhost:3000'
 
   return (
-    <fieldset>
-      <legend>Se connecter</legend>
-      <label>Email : </label>
-      <input ref={emailRef} type="text" />
-      <label>Mot de passe : </label>
-      <input ref={passwordRef} type="password" />
-      <button onClick={login}>OK</button>
-      {token ? <span>Token : {token}</span> : null}
-    </fieldset>
+    <AppContext.Provider value={{ token, setToken, name, setName, backend }}>
+      <main>
+        {token ? <Accueil /> : <LoginView />}
+      </main>
+    </AppContext.Provider>
   )
 }
 

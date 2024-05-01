@@ -112,12 +112,17 @@
                 "password": {
                   "type": "string",
                   "example": "1m02P@SsF0rt!"
+                },
+                "isAdmin": {
+                  "type": "string",
+                  "example": "false"
                 }
               },
               "required": [
                 "name",
                 "email",
-                "password"
+                "password",
+                "isAdmin"
               ]
             }
           }
