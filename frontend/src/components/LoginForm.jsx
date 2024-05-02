@@ -1,41 +1,57 @@
-import { useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
+import { PropTypes } from 'prop-types'
+import { AppContext } from '../AppContext'
 import Button from './Button'
 import InputField from './InputField'
-import { PropTypes } from 'prop-types'
 
-function LoginForm({ onValidInfo }) {
-    const [login, setLogin] = useState("")
-    const [password, setPassword] = useState("")
+function LoginForm({ onValid }) {
+  const { login } = useContext(AppContext)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-    function errorMessage() {
-        let err = ""
+  useEffect(() => {
+    setEmail(login ? login : "")
+  }, [login])
 
-        if (!login.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-            err += "Email invalide."
-        }
+  function errorMessage() {
+    let err = ""
 
-        return err
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      err += "Email invalide."
     }
 
-    function connect() {
-        if (errorMessage().length === 0) {
-            onValidInfo(login, password)
-        }
-    }
+    return err
+  }
 
-    return (
-        <fieldset>
-            <legend>Se connecter</legend>
-            <InputField label='Email :' type='text' value={login} onChangeFunction={setLogin} />
-            <InputField label='Password :' type='password' value={password} onChangeFunction={setPassword} />
-            <Button clickFonction={connect} title='OK' />
-            <div style={{ color: "red" }}> {errorMessage()}</div>
-        </fieldset>
-    )
+  function handleLogin() {
+    if (errorMessage().length === 0) {
+      onValid(email, password)
+    }
+  }
+
+  return (
+    <fieldset>
+      <legend>Se connecter</legend>
+      <InputField
+        label='Email :'
+        type='text'
+        value={email}
+        onChangeFunction={setEmail}
+      />
+      <InputField
+        label='Mot de passe :'
+        type='password'
+        value={password}
+        onChangeFunction={setPassword}
+      />
+      <Button clickFonction={handleLogin} title='OK' />
+      <div style={{ color: "red" }}> {errorMessage()}</div>
+    </fieldset>
+  )
 }
 
 LoginForm.propTypes = {
-    onValidInfo: PropTypes.func.isRequired
+  onValid: PropTypes.func.isRequired
 }
 
 export default LoginForm

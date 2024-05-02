@@ -6,11 +6,11 @@ import './App.css'
 
 function App() {
   const [token, setToken] = useState(null)
+  const [login, setLogin] = useState(null)
   const [name, setName] = useState(null)
-  const backend = 'https://web-application.osc-fr1.scalingo.io'
 
   return (
-    <AppContext.Provider value={{ token, setToken, name, setName, backend }}>
+    <AppContext.Provider value={{ token, setToken, login, setLogin, name, setName }}>
       <main>
         {token ? <Accueil /> : <LoginView />}
       </main>
