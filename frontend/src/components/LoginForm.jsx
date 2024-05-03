@@ -8,24 +8,28 @@ function LoginForm({ onValid }) {
   const { login } = useContext(AppContext)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [message, setMessage] = useState("")
 
   useEffect(() => {
     setEmail(login ? login : "")
   }, [login])
 
-  function errorMessage() {
-    let err = ""
-
-    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      err += "Email invalide."
+  function checkEmail(email) {
+    if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      return ""
     }
 
-    return err
+    return "Email invalide"
   }
 
   function handleLogin() {
-    if (errorMessage().length === 0) {
+    if (!checkEmail(email)) {
       onValid(email, password)
+        .then(status => {
+          if (!status) {
+            setMessage("Échec de la connexion")
+          }
+        })
     }
   }
 
@@ -37,15 +41,17 @@ function LoginForm({ onValid }) {
         type='text'
         value={email}
         onChangeFunction={setEmail}
+        onError={checkEmail}
       />
       <InputField
         label='Mot de passe :'
         type='password'
         value={password}
         onChangeFunction={setPassword}
+        onError={() => ""}
       />
+      <div style={{ color: "red" }}>{message}</div>
       <Button clickFonction={handleLogin} title='OK' />
-      <div style={{ color: "red" }}> {errorMessage()}</div>
     </fieldset>
   )
 }

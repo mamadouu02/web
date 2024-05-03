@@ -18,9 +18,9 @@ function LoginView() {
     if (data.status) {
       setToken(data.token)
       setName(data.name)
-    } else {
-      alert(data.message)
     }
+
+    return data.status
   }
 
   async function register(name, email, password) {
@@ -30,13 +30,7 @@ function LoginView() {
       body: JSON.stringify({ name, email, password })
     })
     const data = await res.json()
-
-    if (!data.status) {
-      alert(data.message)
-      return false
-    }
-
-    return true
+    return data.status
   }
 
   return (

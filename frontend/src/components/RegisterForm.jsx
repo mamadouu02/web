@@ -10,27 +10,35 @@ function RegisterForm({ onValid }) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [message, setMessage] = useState("")
+  const [color, setColor] = useState("")
 
-  function errorMessage() {
-    let err = ""
-
-    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      err += "Email invalide. "
+  function checkEmail(email) {
+    if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      return ""
     }
 
-    if (!password.match(/^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/)) {
-      err += "Mot de passe faible. "
+    return "Email invalide"
+  }
+
+  function checkPassword(password) {
+    if (password.match(/^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/)) {
+      return ""
     }
 
-    if (confirmPassword != password) {
-      err += "Les mots de passe ne correspondent pas."
+    return "Mot de passe faible"
+  }
+
+  function checkConfirmPassword(confirmPassword) {
+    if (confirmPassword === password) {
+      return ""
     }
 
-    return err
+    return "Les mots de passe ne correspondent pas"
   }
 
   function handleRegister() {
-    if (errorMessage().length === 0) {
+    if (!checkEmail(email) && !checkPassword(password) && !checkConfirmPassword(confirmPassword)) {
       onValid(name, email, password)
         .then(status => {
           if (status) {
@@ -39,6 +47,11 @@ function RegisterForm({ onValid }) {
             setEmail("")
             setPassword("")
             setConfirmPassword("")
+            setMessage("Enregistrement réussi")
+            setColor("green")
+          } else {
+            setMessage("Échec de l'enregistrement")
+            setColor("red")
           }
         })
     }
@@ -52,27 +65,31 @@ function RegisterForm({ onValid }) {
         type='text'
         value={name}
         onChangeFunction={setName}
+        onError={() => ""}
       />
       <InputField
         label='Email :'
         type='text'
         value={email}
         onChangeFunction={setEmail}
+        onError={checkEmail}
       />
       <InputField
         label='Mot de passe :'
         type='password'
         value={password}
         onChangeFunction={setPassword}
+        onError={checkPassword}
       />
       <InputField
         label='Confirmez votre mot de passe :'
         type='password'
         value={confirmPassword}
         onChangeFunction={setConfirmPassword}
+        onError={checkConfirmPassword}
       />
+      <div style={{ color: color }}>{message}</div>
       <Button clickFonction={handleRegister} title='OK' />
-      <div style={{ color: "red" }}> {errorMessage()}</div>
     </fieldset>
   )
 }

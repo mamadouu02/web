@@ -9,7 +9,7 @@ swaggerAutogen(outputFile, endpointsFiles, {
       type: 'apiKey',
       in: 'header',
       name: 'x-access-token',
-      description: 'Token jwt de l utlisateur'
+      description: "Token jwt de l'utilisateur"
     }
   }
 })
