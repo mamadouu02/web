@@ -8,7 +8,7 @@ test('endpoint not found', async () => {
   expect(response.body.message).toBe('Endpoint Not Found')
 })
 
-test('user cannot register without name', async () => {
+test('User cannot register without name', async () => {
   const response = await request(app)
     .post('/register')
     .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
@@ -16,7 +16,7 @@ test('user cannot register without name', async () => {
   expect(response.body.message).toBe('You must specify the name and email')
 })
 
-test('user cannot register without email', async () => {
+test('User cannot register without email', async () => {
   const response = await request(app)
     .post('/register')
     .send({ name: 'John Doe', password: 'Test123!' })
@@ -24,7 +24,7 @@ test('user cannot register without email', async () => {
   expect(response.body.message).toBe('You must specify the name and email')
 })
 
-test('user cannot register without password', async () => {
+test('User cannot register without password', async () => {
   const response = await request(app)
     .post('/register')
     .send({ name: 'John Doe', email: 'John.Doe@acme.com' })
@@ -32,7 +32,7 @@ test('user cannot register without password', async () => {
   expect(response.body.message).toBe('You must specify the name and email')
 })
 
-test('user cannot register with weak password', async () => {
+test('User cannot register with weak password', async () => {
   const response = await request(app)
     .post('/register')
     .send({ name: 'John Doe', email: 'John.Doe@acme.com', password: 'password' })
@@ -40,7 +40,7 @@ test('user cannot register with weak password', async () => {
   expect(response.body.message).toBe('Weak password!')
 })
 
-test('user can register', async () => {
+test('User can register', async () => {
   const response = await request(app)
     .post('/register')
     .send({ name: 'John Doe', email: 'John.Doe@acme.com', password: 'Test123!' })
@@ -49,14 +49,14 @@ test('user can register', async () => {
   expect(response.body.message).toBe('User Added')
 })
 
-test('user cannot register with existing email', async () => {
+test('User cannot register with existing email', async () => {
   const response = await request(app)
     .post('/register')
     .send({ name: 'Sebastien Viardot', email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
   expect(response.statusCode).toBe(400)
 })
 
-test('user cannot log in without email', async () => {
+test('User cannot log in without email', async () => {
   const response = await request(app)
     .post('/login')
     .send({ password: 'Test123!' })
@@ -64,7 +64,7 @@ test('user cannot log in without email', async () => {
   expect(response.body.message).toBe('You must specify the email and password')
 })
 
-test('user cannot log in without password', async () => {
+test('User cannot log in without password', async () => {
   const response = await request(app)
     .post('/login')
     .send({ email: 'John.Doe@acme.com' })
@@ -72,7 +72,7 @@ test('user cannot log in without password', async () => {
   expect(response.body.message).toBe('You must specify the email and password')
 })
 
-test('user cannot log in with wrong email', async () => {
+test('User cannot log in with wrong email', async () => {
   const response = await request(app)
     .post('/login')
     .send({ email: 'wrong@example.com', password: 'Test123!' })
@@ -81,7 +81,7 @@ test('user cannot log in with wrong email', async () => {
   expect(response.body.message).toBe('Wrong email/password')
 })
 
-test('user cannot log in with wrong password', async () => {
+test('User cannot log in with wrong password', async () => {
   const response = await request(app)
     .post('/login')
     .send({ email: 'John.Doe@acme.com', password: 'wrong_password' })
@@ -90,7 +90,7 @@ test('user cannot log in with wrong password', async () => {
   expect(response.body.message).toBe('Wrong email/password')
 })
 
-test('user can log in and list users', async () => {
+test('User can log in and list users', async () => {
   let response = await request(app)
     .post('/login')
     .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
@@ -107,14 +107,14 @@ test('user can log in and list users', async () => {
   expect(response.body.data.length).toBeGreaterThan(0)
 })
 
-test('user cannot list users without token', async () => {
+test('User cannot list users without token', async () => {
   const response = await request(app)
     .get('/api/users')
   expect(response.statusCode).toBe(403)
   expect(response.body.message).toBe('Token missing')
 })
 
-test('user cannot list users with invalid token', async () => {
+test('User cannot list users with invalid token', async () => {
   const response = await request(app)
     .get('/api/users')
     .set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV4YW1wbGVAZXhhbXBsZS5jb20ifQ.3MkY4SoyXO9mP_Dk1FiS1VwTtXTsCyEVVMjA3BqlPC0')
@@ -122,7 +122,7 @@ test('user cannot list users with invalid token', async () => {
   expect(response.body.message).toBe('Token invalid')
 })
 
-test('user cannot update password without password', async () => {
+test('User cannot update password without password', async () => {
   let response = await request(app)
     .post('/login')
     .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
@@ -135,7 +135,7 @@ test('user cannot update password without password', async () => {
   expect(response.body.message).toBe('You must specify the password')
 })
 
-test('user cannot update password with weak password', async () => {
+test('User cannot update password with weak password', async () => {
   let response = await request(app)
     .post('/login')
     .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
@@ -149,7 +149,7 @@ test('user cannot update password with weak password', async () => {
   expect(response.body.message).toBe('Weak password!')
 })
 
-test('user can update password', async () => {
+test('User can update password', async () => {
   let response = await request(app)
     .post('/login')
     .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
@@ -164,7 +164,7 @@ test('user can update password', async () => {
   expect(response.body).toHaveProperty('message', 'Password updated')
 })
 
-test('admin can update user', async () => {
+test('Admin can update user', async () => {
   let response = await request(app)
     .post('/login')
     .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
@@ -179,7 +179,7 @@ test('admin can update user', async () => {
   expect(response.body).toHaveProperty('message', 'User updated')
 })
 
-test('admin cannot update user without name, email or password', async () => {
+test('Admin cannot update user without name, email or password', async () => {
   let response = await request(app)
     .post('/login')
     .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
@@ -192,7 +192,7 @@ test('admin cannot update user without name, email or password', async () => {
   expect(response.body.message).toBe('You must specify the name, email or password')
 })
 
-test('non-admin cannot update user', async () => {
+test('Non-admin cannot update user', async () => {
   let response = await request(app)
     .post('/login')
     .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
@@ -206,7 +206,7 @@ test('non-admin cannot update user', async () => {
   expect(response.body.message).toBe('You must be an admin')
 })
 
-test('non-admin cannot delete user', async () => {
+test('Non-admin cannot delete user', async () => {
   let response = await request(app)
     .post('/login')
     .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
@@ -219,7 +219,7 @@ test('non-admin cannot delete user', async () => {
   expect(response.body.message).toBe('You must be an admin')
 })
 
-test('admin can delete user', async () => {
+test('Admin can delete user', async () => {
   let response = await request(app)
     .post('/login')
     .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })

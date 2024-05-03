@@ -34,7 +34,7 @@ function LoginForm({ onValid }) {
   }
 
   return (
-    <fieldset>
+    <fieldset className='LoginForm'>
       <legend>Se connecter</legend>
       <InputField
         label='Email :'

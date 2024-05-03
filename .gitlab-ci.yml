@@ -13,7 +13,7 @@ lint-js:
   script:
     - cd backend
     - npm install eslint
-    - npx eslint src/{controllers,models,routes}/*.js > ../eslint.report.txt
+    - npx eslint src ../frontend/src --ext js,jsx > ../eslint.report.txt
     - cd ..
     - "NBERR=$(grep -e '  error' eslint.report.txt | wc -l || true); NBWARN=$(grep -e '  warning' eslint.report.txt | wc -l || true); color='success'"
     - "[[ $NBERR > 0 ]] && color='red' || [[ $NBWARN > 0 ]] && color='yellow' || true"
@@ -86,6 +86,26 @@ api-test:
     paths:
       - api-test.report.txt
       - api-test.badge.svg
+
+cypress:
+  stage: test
+  tags:
+    - docker
+  image: cypress/base:16.18.1
+  script:
+    - cd frontend
+    - npm i
+    - (npm run dev &)
+    - npx cypress run > ../cypress.report.txt
+    - kill -9 $(ps | grep node | awk '{print $1}')
+    - cd ..
+    - "grep -q -e 'All specs passed!' cypress.report.txt && res='PASSED' && color='success' || res='FAILED' && color='failed' || true"
+    - "curl -o cypress.badge.svg https://img.shields.io/badge/cypress-$res-$color"
+  artifacts:
+    when: always
+    paths:
+      - cypress.report.txt
+      - cypress.badge.svg
 
 # Job pour exposer l'API sur Scalingo
 # URL d'exposition de l'API : https://web-application.osc-fr1.scalingo.io/

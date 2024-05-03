@@ -10,7 +10,7 @@ fetch("http://localhost:3000/login", {
   },
   "body": {
     "email": "John.Doe@acme.com",
-    "password": "12345"
+    "password": "1m02P@SsF0rt!"
   }
 })
 .then(response => {

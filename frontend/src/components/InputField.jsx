@@ -2,7 +2,7 @@ import { PropTypes } from 'prop-types'
 
 function InputField({ label, type, value, onChangeFunction, onError }) {
   return (
-    <div>
+    <div className='InputField'>
       <label>{label} </label>
       <input
         type={type}

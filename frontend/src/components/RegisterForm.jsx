@@ -58,7 +58,7 @@ function RegisterForm({ onValid }) {
   }
 
   return (
-    <fieldset>
+    <fieldset className='RegisterForm'>
       <legend>S&apos;enregistrer</legend>
       <InputField
         label='Nom :'
