@@ -12,27 +12,25 @@ lint-js:
   image: node
   script:
     - cd backend
-    - npm install eslint
-    - npx eslint src ../frontend/src --ext js,jsx > ../eslint.report.txt
-    - cd ..
-    - "NBERR=$(grep -e '  error' eslint.report.txt | wc -l || true); NBWARN=$(grep -e '  warning' eslint.report.txt | wc -l || true); color='success'"
-    - "[[ $NBERR > 0 ]] && color='red' || [[ $NBWARN > 0 ]] && color='yellow' || true"
-    - "curl -o eslint.badge.svg https://img.shields.io/badge/eslint-$NBERR%20errors,%20$NBWARN%20warnings-$color"
+    - npm i
+    - npx eslint src --ext js > ../eslint.report.txt
+    - cd ../frontend
+    - npm i
+    - npx eslint src --ext js,jsx >> ../eslint.report.txt
   allow_failure: true
   artifacts:
     when: always
     paths:
       - eslint.report.txt
-      - eslint.badge.svg
 
 sonarqube-report:
   stage: sonarqube-check
-  image: 
+  image:
     name: sonarsource/sonar-scanner-cli:5.0
     entrypoint: [""]
   variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
+    GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task
   cache:
     key: "${CI_JOB_NAME}"
     paths:
@@ -78,14 +76,10 @@ api-test:
     - cd backend
     - npm i
     - npm run test > ../api-test.report.txt 2>&1
-    - cd ..
-    - "grep -q -e 'failed' api-test.report.txt && res='FAILED' && color='failed' || res='PASSED' && color='success' || true"
-    - "curl -o api-test.badge.svg https://img.shields.io/badge/API%20test-$res-$color"
   artifacts:
     when: always
     paths:
       - api-test.report.txt
-      - api-test.badge.svg
 
 cypress:
   stage: test
@@ -98,14 +92,10 @@ cypress:
     - (npm run dev &)
     - npx cypress run > ../cypress.report.txt
     - kill -9 $(ps | grep node | awk '{print $1}')
-    - cd ..
-    - "grep -q -e 'All specs passed!' cypress.report.txt && res='PASSED' && color='success' || res='FAILED' && color='failed' || true"
-    - "curl -o cypress.badge.svg https://img.shields.io/badge/cypress-$res-$color"
   artifacts:
     when: always
     paths:
       - cypress.report.txt
-      - cypress.badge.svg
 
 # Job pour exposer l'API sur Scalingo
 # URL d'exposition de l'API : https://web-application.osc-fr1.scalingo.io/
@@ -123,9 +113,9 @@ scalingo:
   script:
     # Installer scalingo CLI
     - curl -O https://cli-dl.scalingo.com/install && bash install
-    # Pour indiquer sur le dépôt distant où est le backend 
+    # Pour indiquer sur le dépôt distant où est le backend
     # (s'il est à la racine du projet ceci est facultatif, et il est possible de le faire une fois pour toute directement dans l'interface web de scalingo)
-    - scalingo --app=$SCALINGO_APP_NAME env-set PROJECT_DIR=$PROJECT_DIR 
+    - scalingo --app=$SCALINGO_APP_NAME env-set PROJECT_DIR=$PROJECT_DIR
     # Se connecter à scalingo avec le token d'authentification
     - scalingo login --api-token $SCALINGO_API_TOKEN
     # Créer une paire de clé ssh pour faire les manips git sur le dépôt scalingo
@@ -140,3 +130,27 @@ scalingo:
     - "GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no -i ~/.dpl/id_rsa' git push scalingo-dpl HEAD:refs/heads/main -f"
     # Supprimer la clé temporaire ajoutée
     - scalingo keys-remove dpl_tmp_key || echo Suppression
+
+badges:
+  stage: deploy
+  tags:
+    - docker
+  image: node
+  script:
+    - "NBERR=$(grep -e '  error' eslint.report.txt | wc -l || true); NBWARN=$(grep -e '  warning' eslint.report.txt | wc -l || true); color='success'"
+    - "[[ $NBERR > 0 ]] && color='red' || [[ $NBWARN > 0 ]] && color='yellow' || true"
+    - "curl -o eslint.badge.svg https://img.shields.io/badge/eslint-$NBERR%20errors,%20$NBWARN%20warnings-$color"
+    - "grep -q -e 'failed' api-test.report.txt && res='FAILED' && color='failed' || res='PASSED' && color='success' || true"
+    - "curl -o api-test.badge.svg https://img.shields.io/badge/API%20test-$res-$color"
+    - "grep -q -e 'All specs passed!' cypress.report.txt && res='PASSED' && color='success' || res='FAILED' && color='failed' || true"
+    - "curl -o cypress.badge.svg https://img.shields.io/badge/cypress-$res-$color"
+  dependencies:
+    - lint-js
+    - api-test
+    - cypress
+  artifacts:
+    paths:
+      - eslint.badge.svg
+      - api-test.badge.svg
+      - cypress.badge.svg
+  when: always

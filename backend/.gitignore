@@ -58,3 +58,5 @@ typings/
 .next
 
 node_modules
+
+*.http
