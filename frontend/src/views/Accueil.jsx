@@ -1,10 +1,12 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { AppContext } from '../AppContext'
-import Groups from '../components/Groups'
 import Button from '../components/Button'
+import Groups from '../components/Groups'
+import GroupManager from '../components/GroupManager'
 
 function Accueil() {
   const { setToken, login, setLogin } = useContext(AppContext)
+  const [group, setGroup] = useState(null)
 
   function logout() {
     setToken(null)
@@ -16,7 +18,8 @@ function Accueil() {
       <header>
         {login} | <Button onClickHandler={logout} title={'Se déconnecter'} />
       </header>
-      <Groups />
+      <Groups onClickHandler={setGroup}/>
+      {group ? <GroupManager group={group} /> : null}
     </div>
   )
 }

@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types'
 import { AppContext } from '../AppContext'
 import Button from './Button'
 import InputField from './InputField'
+import Error from './Error'
 
 function RegisterForm({ onValid }) {
   const { setLogin } = useContext(AppContext)
@@ -10,8 +11,7 @@ function RegisterForm({ onValid }) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [message, setMessage] = useState("")
-  const [color, setColor] = useState("")
+  const [error, setError] = useState(null)
 
   function checkEmail(email) {
     if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
@@ -47,11 +47,15 @@ function RegisterForm({ onValid }) {
             setEmail("")
             setPassword("")
             setConfirmPassword("")
-            setMessage("Enregistrement réussi")
-            setColor("green")
+            setError({
+              status: status,
+              message: "Enregistrement réussi"
+            })
           } else {
-            setMessage("Échec de l'enregistrement")
-            setColor("red")
+            setError({
+              status: status,
+              message: "Échec de l'enregistrement"
+            })
           }
         })
     }
@@ -87,7 +91,7 @@ function RegisterForm({ onValid }) {
         onChangeHandler={setConfirmPassword}
         onErrorHandler={checkConfirmPassword}
       />
-      <div style={{ color: color }}>{message}</div>
+      {error ? <Error status={error.status} message={error.message}/> : null}
       <Button onClickHandler={registerHandler} title='OK' />
     </fieldset>
   )

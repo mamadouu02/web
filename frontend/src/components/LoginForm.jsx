@@ -3,12 +3,13 @@ import { PropTypes } from 'prop-types'
 import { AppContext } from '../AppContext'
 import Button from './Button'
 import InputField from './InputField'
+import Error from './Error'
 
 function LoginForm({ onValid }) {
   const { login, setLogin } = useContext(AppContext)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [message, setMessage] = useState("")
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     setEmail(login ? login : "")
@@ -29,7 +30,10 @@ function LoginForm({ onValid }) {
           if (status) {
             setLogin(email)
           } else {
-            setMessage("Échec de la connexion")
+            setError({
+              status: status,
+              message: "Échec de la connexion"
+            })
           }
         })
     }
@@ -51,7 +55,7 @@ function LoginForm({ onValid }) {
         value={password}
         onChangeHandler={setPassword}
       />
-      <div style={{ color: "red" }}>{message}</div>
+      {error ? <Error status={error.status} message={error.message}/> : null}
       <Button onClickHandler={loginHandler} title='OK' />
     </fieldset>
   )
