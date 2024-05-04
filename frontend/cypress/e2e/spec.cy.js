@@ -66,6 +66,6 @@ describe('App test', () => {
       cy.wait('@login')
     });
 
-    cy.contains('Bonjour, John Doe');
+    cy.contains('John.Doe@acme.com');
   });
 });
