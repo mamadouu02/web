@@ -37,7 +37,7 @@ function RegisterForm({ onValid }) {
     return "Les mots de passe ne correspondent pas"
   }
 
-  function handleRegister() {
+  function registerHandler() {
     if (!checkEmail(email) && !checkPassword(password) && !checkConfirmPassword(confirmPassword)) {
       onValid(name, email, password)
         .then(status => {
@@ -64,32 +64,32 @@ function RegisterForm({ onValid }) {
         label='Nom :'
         type='text'
         value={name}
-        onChangeFunction={setName}
-        onError={() => ""}
+        onChangeHandler={setName}
+        onErrorHandler={() => ""}
       />
       <InputField
         label='Email :'
         type='text'
         value={email}
-        onChangeFunction={setEmail}
-        onError={checkEmail}
+        onChangeHandler={setEmail}
+        onErrorHandler={checkEmail}
       />
       <InputField
         label='Mot de passe :'
         type='password'
         value={password}
-        onChangeFunction={setPassword}
-        onError={checkPassword}
+        onChangeHandler={setPassword}
+        onErrorHandler={checkPassword}
       />
       <InputField
         label='Confirmez votre mot de passe :'
         type='password'
         value={confirmPassword}
-        onChangeFunction={setConfirmPassword}
-        onError={checkConfirmPassword}
+        onChangeHandler={setConfirmPassword}
+        onErrorHandler={checkConfirmPassword}
       />
       <div style={{ color: color }}>{message}</div>
-      <Button clickFonction={handleRegister} title='OK' />
+      <Button clickHandler={registerHandler} title='OK' />
     </fieldset>
   )
 }

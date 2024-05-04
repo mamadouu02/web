@@ -5,7 +5,7 @@ import Button from './Button'
 import InputField from './InputField'
 
 function LoginForm({ onValid }) {
-  const { login } = useContext(AppContext)
+  const { login, setLogin } = useContext(AppContext)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
@@ -22,11 +22,13 @@ function LoginForm({ onValid }) {
     return "Email invalide"
   }
 
-  function handleLogin() {
+  function loginHandler() {
     if (!checkEmail(email)) {
       onValid(email, password)
         .then(status => {
-          if (!status) {
+          if (status) {
+            setLogin(email)
+          } else {
             setMessage("Échec de la connexion")
           }
         })
@@ -40,18 +42,18 @@ function LoginForm({ onValid }) {
         label='Email :'
         type='text'
         value={email}
-        onChangeFunction={setEmail}
-        onError={checkEmail}
+        onChangeHandler={setEmail}
+        onErrorHandler={checkEmail}
       />
       <InputField
         label='Mot de passe :'
         type='password'
         value={password}
-        onChangeFunction={setPassword}
-        onError={() => ""}
+        onChangeHandler={setPassword}
+        onErrorHandler={() => ""}
       />
       <div style={{ color: "red" }}>{message}</div>
-      <Button clickFonction={handleLogin} title='OK' />
+      <Button clickHandler={loginHandler} title='OK' />
     </fieldset>
   )
 }

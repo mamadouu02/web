@@ -1,4 +1,4 @@
-const backend = 'https://web-application.osc-fr1.scalingo.io/'
+const backend = 'https://web-application.osc-fr1.scalingo.io'
 
 describe('App test', () => {
   beforeEach(() => {
@@ -6,7 +6,7 @@ describe('App test', () => {
   });
 
   it('New user can register', () => {
-    cy.intercept('POST', backend + 'register', { fixture: 'register.json' }).as('register')
+    cy.intercept('POST', backend + '/register', { fixture: 'register.json' }).as('register')
     
     cy.get('.RegisterForm').as('registerForm');
     
@@ -26,7 +26,7 @@ describe('App test', () => {
   });
   
   it('Registered user cannot register', () => {
-    cy.intercept('POST', backend + 'register', { fixture: 'register_error.json' }).as('register')
+    cy.intercept('POST', backend + '/register', { fixture: 'register_error.json' }).as('register')
     
     cy.get('.RegisterForm').as('registerForm');
     
@@ -42,7 +42,7 @@ describe('App test', () => {
   });
   
   it('User cannot log in with wrong password', () => {
-    cy.intercept('POST', backend + 'login', { fixture: 'login_error.json' }).as('login')
+    cy.intercept('POST', backend + '/login', { fixture: 'login_error.json' }).as('login')
     
     cy.get('.LoginForm').as('loginForm');
     cy.get('@loginForm').within(() => {
@@ -55,7 +55,7 @@ describe('App test', () => {
   });
   
   it('User can log in', () => {
-    cy.intercept('POST', backend + 'login', { fixture: 'login.json' }).as('login')
+    cy.intercept('POST', backend + '/login', { fixture: 'login.json' }).as('login')
     
     cy.get('.LoginForm').as('loginForm');
     

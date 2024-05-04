@@ -4,8 +4,7 @@ import LoginForm from '../components/LoginForm'
 import RegisterForm from '../components/RegisterForm'
 
 function LoginView() {
-  const { setToken, setName } = useContext(AppContext)
-  const backend = 'https://web-application.osc-fr1.scalingo.io'
+  const { setToken, backend } = useContext(AppContext)
 
   async function login(email, password) {
     const res = await fetch(backend + '/login', {
@@ -13,14 +12,13 @@ function LoginView() {
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ email, password })
     })
-    const data = await res.json()
+    const json = await res.json()
 
-    if (data.status) {
-      setToken(data.token)
-      setName(data.name)
+    if (json.status) {
+      setToken(json.token)
     }
 
-    return data.status
+    return json.status
   }
 
   async function register(name, email, password) {
@@ -29,8 +27,8 @@ function LoginView() {
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ name, email, password })
     })
-    const data = await res.json()
-    return data.status
+    const json = await res.json()
+    return json.status
   }
 
   return (
