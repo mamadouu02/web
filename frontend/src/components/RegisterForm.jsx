@@ -65,7 +65,6 @@ function RegisterForm({ onValid }) {
         type='text'
         value={name}
         onChangeHandler={setName}
-        onErrorHandler={() => ""}
       />
       <InputField
         label='Email :'
@@ -89,7 +88,7 @@ function RegisterForm({ onValid }) {
         onErrorHandler={checkConfirmPassword}
       />
       <div style={{ color: color }}>{message}</div>
-      <Button clickHandler={registerHandler} title='OK' />
+      <Button onClickHandler={registerHandler} title='OK' />
     </fieldset>
   )
 }

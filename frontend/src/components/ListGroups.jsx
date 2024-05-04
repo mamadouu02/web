@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react'
 import { PropTypes } from 'prop-types'
 import { AppContext } from '../AppContext'
 
-function ListGroups({ member }) {
+function ListGroups({ member, counter }) {
   const { token, backend } = useContext(AppContext)
   const [groups, setGroups] = useState([])
   const endpoint = member ? '/api/groupsmember' : '/api/mygroups'
@@ -17,7 +17,7 @@ function ListGroups({ member }) {
     })
       .then(res => res.json())
       .then(json => setGroups(json.data))
-  }, [])
+  }, [counter])
 
   return (
     <div className={member ? 'ListGroupsMember' : 'ListMyGroups'}>
@@ -32,7 +32,8 @@ function ListGroups({ member }) {
 }
 
 ListGroups.propTypes = {
-  member: PropTypes.bool.isRequired
+  member: PropTypes.bool.isRequired,
+  counter: PropTypes.number.isRequired
 }
 
 export default ListGroups

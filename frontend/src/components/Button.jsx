@@ -1,15 +1,15 @@
 import { PropTypes } from 'prop-types'
 
-function Button({ clickHandler, title }) {
+function Button({ onClickHandler, title }) {
   return (
-    <button onClick={clickHandler}>
+    <button onClick={onClickHandler}>
       {title}
     </button>
   )
 }
 
 Button.propTypes = {
-  clickHandler: PropTypes.func.isRequired,
+  onClickHandler: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired
 }
 

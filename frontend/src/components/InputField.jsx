@@ -1,25 +1,27 @@
 import { PropTypes } from 'prop-types'
 
-function InputField({ label, type, value, onChangeHandler, onErrorHandler }) {
+function InputField({ label = '', type, value, placeholder = '', onChangeHandler = () => { }, onErrorHandler = () => { } }) {
   return (
     <div className='InputField'>
       <label>{label} </label>
       <input
         type={type}
         value={value}
+        placeholder={placeholder}
         onChange={(e) => onChangeHandler(e.target.value)}
       />
-      <span style={{ color: "red" }}> { onErrorHandler(value)}</span>
+      <span style={{ color: "red" }}> {onErrorHandler(value)}</span>
     </div>
   )
 }
 
 InputField.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  onChangeHandler: PropTypes.func.isRequired,
-  onErrorHandler: PropTypes.func.isRequired
+  placeholder: PropTypes.string,
+  onChangeHandler: PropTypes.func,
+  onErrorHandler: PropTypes.func
 }
 
 export default InputField

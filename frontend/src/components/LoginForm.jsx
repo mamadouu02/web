@@ -50,10 +50,9 @@ function LoginForm({ onValid }) {
         type='password'
         value={password}
         onChangeHandler={setPassword}
-        onErrorHandler={() => ""}
       />
       <div style={{ color: "red" }}>{message}</div>
-      <Button clickHandler={loginHandler} title='OK' />
+      <Button onClickHandler={loginHandler} title='OK' />
     </fieldset>
   )
 }
