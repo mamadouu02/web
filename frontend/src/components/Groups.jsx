@@ -51,7 +51,7 @@ function Groups({ onClickHandler }) {
         placeholder='Nom du nouveau groupe'
         onChangeHandler={setGroupName}
       />
-      {error ? <Error status={error.status} message={error.message}/> : null}
+      {error ? <Error status={error.status} message={error.message} /> : null}
       <Button onClickHandler={newGroup} title='Créer' />
     </fieldset>
   )

@@ -1,12 +1,12 @@
 const backend = 'https://web-application.osc-fr1.scalingo.io'
 
-describe('App test', () => {
+describe('Login view', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:5173/');
+    cy.visit('http://localhost:5173');
   });
 
   it('New user can register', () => {
-    cy.intercept('POST', backend + '/register', { fixture: 'register.json' }).as('register')
+    cy.intercept('POST', backend + '/register', { fixture: 'register.json' }).as('register');
     
     cy.get('.RegisterForm').as('registerForm');
     
@@ -16,7 +16,7 @@ describe('App test', () => {
       cy.get('input[type="password"]').eq(0).type('1m02P@SsF0rt!');
       cy.get('input[type="password"]').eq(1).type('1m02P@SsF0rt!');
       cy.get('button').click();
-      cy.wait('@register')
+      cy.wait('@register');
       cy.contains('Enregistrement réussi');
       cy.get('input[type="text"]').should('have.value', '');
       cy.get('input[type="password"]').should('have.value', '');
@@ -26,7 +26,7 @@ describe('App test', () => {
   });
   
   it('Registered user cannot register', () => {
-    cy.intercept('POST', backend + '/register', { fixture: 'register_error.json' }).as('register')
+    cy.intercept('POST', backend + '/register', { fixture: 'register_error.json' }).as('register');
     
     cy.get('.RegisterForm').as('registerForm');
     
@@ -36,26 +36,26 @@ describe('App test', () => {
       cy.get('input[type="password"]').eq(0).type('1m02P@SsF0rt!');
       cy.get('input[type="password"]').eq(1).type('1m02P@SsF0rt!');
       cy.get('button').click();
-      cy.wait('@register')
+      cy.wait('@register');
       cy.contains("Échec de l'enregistrement");
     });
   });
   
   it('User cannot log in with wrong password', () => {
-    cy.intercept('POST', backend + '/login', { fixture: 'login_error.json' }).as('login')
+    cy.intercept('POST', backend + '/login', { fixture: 'login_error.json' }).as('login');
     
     cy.get('.LoginForm').as('loginForm');
     cy.get('@loginForm').within(() => {
       cy.get('input[type="text"]').type('John.Doe@acme.com');
       cy.get('input[type="password"]').type('1m02P@sF0rt!');
       cy.get('button').click();
-      cy.wait('@login')
+      cy.wait('@login');
       cy.contains("Échec de la connexion");
     });
   });
   
-  it('User can log in', () => {
-    cy.intercept('POST', backend + '/login', { fixture: 'login.json' }).as('login')
+  it('User can log in and log out', () => {
+    cy.intercept('POST', backend + '/login', { fixture: 'login.json' }).as('login');
     
     cy.get('.LoginForm').as('loginForm');
     
@@ -63,9 +63,13 @@ describe('App test', () => {
       cy.get('input[type="text"]').type('John.Doe@acme.com');
       cy.get('input[type="password"]').type('1m02P@SsF0rt!');
       cy.get('button').click();
-      cy.wait('@login')
+      cy.wait('@login');
     });
-
+    
     cy.contains('John.Doe@acme.com');
+
+    cy.get('header button').click();
+
+    cy.contains('Se connecter');
   });
 });

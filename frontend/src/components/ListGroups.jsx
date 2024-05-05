@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react'
 import { PropTypes } from 'prop-types'
 import { AppContext } from '../AppContext'
 
-function ListGroups({ member, onClickHandler = () => {} }) {
+function ListGroups({ member, onClickHandler = () => { } }) {
   const { token, count, backend } = useContext(AppContext)
   const [groups, setGroups] = useState([])
   const endpoint = member ? '/api/groupsmember' : '/api/mygroups'

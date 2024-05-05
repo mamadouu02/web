@@ -11,7 +11,7 @@ function MemberManager({ gid }) {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetch(backend + '/api/users/', {
+    fetch(backend + '/api/users', {
       method: 'GET',
       headers: { 'x-access-token': token }
     })
@@ -50,7 +50,7 @@ function MemberManager({ gid }) {
         ))}
       </select>
       <Button onClickHandler={addMember} title='Ajouter' />
-      {error ? <Error status={error.status} message={error.message}/> : null}
+      {error ? <Error status={error.status} message={error.message} /> : null}
     </div>
   )
 }

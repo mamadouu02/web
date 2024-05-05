@@ -45,7 +45,7 @@ function ListMembers({ gid }) {
           </li>
         ))}
       </ul>
-      {error ? <Error status={error.status} message={error.message}/> : null}
+      {error ? <Error status={error.status} message={error.message} /> : null}
     </div>
   )
 }

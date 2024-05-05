@@ -91,7 +91,7 @@ function RegisterForm({ onValid }) {
         onChangeHandler={setConfirmPassword}
         onErrorHandler={checkConfirmPassword}
       />
-      {error ? <Error status={error.status} message={error.message}/> : null}
+      {error ? <Error status={error.status} message={error.message} /> : null}
       <Button onClickHandler={registerHandler} title='OK' />
     </fieldset>
   )

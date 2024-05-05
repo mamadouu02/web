@@ -18,7 +18,7 @@ function Accueil() {
       <header>
         {login} | <Button onClickHandler={logout} title={'Se déconnecter'} />
       </header>
-      <Groups onClickHandler={setGroup}/>
+      <Groups onClickHandler={setGroup} />
       {group ? <GroupManager group={group} /> : null}
     </div>
   )

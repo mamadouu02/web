@@ -55,7 +55,7 @@ function LoginForm({ onValid }) {
         value={password}
         onChangeHandler={setPassword}
       />
-      {error ? <Error status={error.status} message={error.message}/> : null}
+      {error ? <Error status={error.status} message={error.message} /> : null}
       <Button onClickHandler={loginHandler} title='OK' />
     </fieldset>
   )
