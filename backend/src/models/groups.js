@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('./database.js')
 const users = require('./users.js')
+
 const groups = db.define('groups', {
   id: {
     primaryKey: true,
@@ -21,7 +22,10 @@ users.hasMany(groups, {
   foreignKey: 'ownerId',
   onDelete: 'CASCADE'
 })
-groups.belongsTo(users, { as: 'owner', foreignKey: 'ownerId' })
+groups.belongsTo(users, {
+  as: 'owner',
+  foreignKey: 'ownerId'
+})
 
 users.belongsToMany(groups, {
   through: 'User_Group',

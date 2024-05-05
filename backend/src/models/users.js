@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('./database.js')
+
 const users = db.define('users', {
   id: {
     primaryKey: true,
@@ -30,4 +31,5 @@ const users = db.define('users', {
     defaultValue: false
   }
 }, { timestamps: false })
+
 module.exports = users

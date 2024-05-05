@@ -1,7 +1,7 @@
 const app = require('../app')
 const request = require('supertest')
 
-test('endpoint not found', async () => {
+test('Endpoint not found', async () => {
   const response = await request(app)
     .get('/')
   expect(response.statusCode).toBe(404)
