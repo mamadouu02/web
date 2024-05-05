@@ -241,3 +241,11 @@ test('Admin can delete user', async () => {
   expect(response.body).toHaveProperty('status', true)
   expect(response.body).toHaveProperty('message', 'User deleted')
 })
+
+test('token of an unexisting user cannot be used', async () => {
+  const response = await request(app)
+    .get('/api/users')
+    .set('x-access-token', 'eyJhbGciOiJIUzI1NiJ9.Sm9obi5Eb2VAYWNtZS5jb20.uN3w4hi517Q7ouruwX-HHqqmgDkm-J2Wk6tJFNfB0Z0')
+  expect(response.statusCode).toBe(403)
+  expect(response.body).toHaveProperty('message', 'Inconsistent token')
+})

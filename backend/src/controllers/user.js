@@ -25,6 +25,11 @@ async function checkToken (req, res, next) {
   // On modifie l'objet requête pour mettre le login à disposition pour les middleware suivants
   const login = jws.decode(req.headers['x-access-token']).payload
   const user = await userModel.findOne({ where: { email: login } })
+
+  if (!user) {
+    throw new CodeError('Inconsistent token', status.FORBIDDEN)
+  }
+
   req.user = user
   // On appelle la fonction middleware suivante :
   next()
@@ -107,7 +112,6 @@ module.exports = {
   async deleteUser (req, res) {
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Delete User'
-    if (!has(req.params, 'id')) throw new CodeError('You must specify the id', status.BAD_REQUEST)
     const { id } = req.params
     await userModel.destroy({ where: { id } })
     res.json({ status: true, message: 'User deleted' })
