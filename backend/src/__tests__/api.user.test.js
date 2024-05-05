@@ -98,6 +98,7 @@ test('User can log in and list users', async () => {
   expect(response.body).toHaveProperty('status', true)
   expect(response.body.message).toBe('Login/Password ok')
   expect(response.body).toHaveProperty('token')
+
   response = await request(app)
     .get('/api/users')
     .set('x-access-token', response.body.token)
@@ -128,6 +129,7 @@ test('User cannot update password without password', async () => {
     .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('token')
+
   response = await request(app)
     .put('/api/password')
     .set('x-access-token', response.body.token)
@@ -141,6 +143,7 @@ test('User cannot update password with weak password', async () => {
     .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('token')
+
   response = await request(app)
     .put('/api/password')
     .set('x-access-token', response.body.token)
@@ -155,6 +158,7 @@ test('User can update password', async () => {
     .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('token')
+
   response = await request(app)
     .put('/api/password')
     .set('x-access-token', response.body.token)
@@ -170,6 +174,7 @@ test('Admin can update user', async () => {
     .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('token')
+
   response = await request(app)
     .put('/api/users/5')
     .set('x-access-token', response.body.token)
@@ -185,6 +190,7 @@ test('Admin cannot update user without name, email or password', async () => {
     .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('token')
+
   response = await request(app)
     .put('/api/users/5')
     .set('x-access-token', response.body.token)
@@ -198,6 +204,7 @@ test('Non-admin cannot update user', async () => {
     .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('token')
+
   response = await request(app)
     .put('/api/users/5')
     .set('x-access-token', response.body.token)
@@ -212,6 +219,7 @@ test('Non-admin cannot delete user', async () => {
     .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('token')
+
   response = await request(app)
     .delete('/api/users/5')
     .set('x-access-token', response.body.token)
@@ -225,6 +233,7 @@ test('Admin can delete user', async () => {
     .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('token')
+
   response = await request(app)
     .delete('/api/users/5')
     .set('x-access-token', response.body.token)

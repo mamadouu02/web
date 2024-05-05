@@ -7,6 +7,7 @@ test('Non-member cannot send message', async () => {
     .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('token')
+
   response = await request(app)
     .get('/api/messages/2')
     .set('x-access-token', response.body.token)
@@ -20,11 +21,13 @@ test('Member can list messages', async () => {
     .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('token')
+
   response = await request(app)
     .get('/api/messages/1')
     .set('x-access-token', response.body.token)
   expect(response.statusCode).toBe(200)
   expect(response.body.message).toBe('Returning messages')
+  expect(response.body.data.length).toBeGreaterThan(0)
 })
 
 test('Member cannot send message without content', async () => {
@@ -33,6 +36,7 @@ test('Member cannot send message without content', async () => {
     .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('token')
+
   response = await request(app)
     .post('/api/messages/1')
     .set('x-access-token', response.body.token)
@@ -46,6 +50,7 @@ test('Member can send message', async () => {
     .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('token')
+
   response = await request(app)
     .post('/api/messages/1')
     .set('x-access-token', response.body.token)
