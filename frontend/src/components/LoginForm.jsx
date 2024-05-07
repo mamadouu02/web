@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types'
 import { AppContext } from '../AppContext'
 import Button from './Button'
 import InputField from './InputField'
-import Error from './Error'
+import ErrorMessage from './ErrorMessage'
 
 function LoginForm({ onValid }) {
   const { login, setLogin } = useContext(AppContext)
@@ -55,7 +55,7 @@ function LoginForm({ onValid }) {
         value={password}
         onChangeHandler={setPassword}
       />
-      {error ? <Error status={error.status} message={error.message} /> : null}
+      {error ? <ErrorMessage status={error.status} message={error.message} /> : null}
       <Button onClickHandler={loginHandler} title='OK' />
     </fieldset>
   )

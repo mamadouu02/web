@@ -5,6 +5,17 @@ stages:
   - test
   - deploy
 
+default:
+  image: node
+  cache:
+    key:
+      files:
+        - backend/package.json
+        - frontend/package.json
+    paths:
+      - backend/node_modules
+      - frontend/node_modules
+
 lint-js:
   stage: lint
   tags:

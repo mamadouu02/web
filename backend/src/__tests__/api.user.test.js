@@ -1,6 +1,15 @@
 const app = require('../app')
 const request = require('supertest')
 
+async function getToken (email, password) {
+  const response = await request(app)
+    .post('/login')
+    .send({ email, password })
+  expect(response.statusCode).toBe(200)
+  expect(response.body).toHaveProperty('token')
+  return response.body.token
+}
+
 test('Endpoint not found', async () => {
   const response = await request(app)
     .get('/')
@@ -124,44 +133,32 @@ test('User cannot list users with invalid token', async () => {
 })
 
 test('User cannot update password without password', async () => {
-  let response = await request(app)
-    .post('/login')
-    .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
-  expect(response.statusCode).toBe(200)
-  expect(response.body).toHaveProperty('token')
+  const token = await getToken('John.Doe@acme.com', 'Test123!')
 
-  response = await request(app)
+  const response = await request(app)
     .put('/api/password')
-    .set('x-access-token', response.body.token)
+    .set('x-access-token', token)
   expect(response.statusCode).toBe(400)
   expect(response.body.message).toBe('You must specify the password')
 })
 
 test('User cannot update password with weak password', async () => {
-  let response = await request(app)
-    .post('/login')
-    .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
-  expect(response.statusCode).toBe(200)
-  expect(response.body).toHaveProperty('token')
+  const token = await getToken('John.Doe@acme.com', 'Test123!')
 
-  response = await request(app)
+  const response = await request(app)
     .put('/api/password')
-    .set('x-access-token', response.body.token)
+    .set('x-access-token', token)
     .send({ password: 'password' })
   expect(response.statusCode).toBe(400)
   expect(response.body.message).toBe('Weak password!')
 })
 
 test('User can update password', async () => {
-  let response = await request(app)
-    .post('/login')
-    .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
-  expect(response.statusCode).toBe(200)
-  expect(response.body).toHaveProperty('token')
+  const token = await getToken('John.Doe@acme.com', 'Test123!')
 
-  response = await request(app)
+  const response = await request(app)
     .put('/api/password')
-    .set('x-access-token', response.body.token)
+    .set('x-access-token', token)
     .send({ password: 'Test321!' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('status', true)
@@ -169,15 +166,11 @@ test('User can update password', async () => {
 })
 
 test('Admin can update user', async () => {
-  let response = await request(app)
-    .post('/login')
-    .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
-  expect(response.statusCode).toBe(200)
-  expect(response.body).toHaveProperty('token')
+  const token = await getToken('Sebastien.Viardot@grenoble-inp.fr', '123456')
 
-  response = await request(app)
+  const response = await request(app)
     .put('/api/users/5')
-    .set('x-access-token', response.body.token)
+    .set('x-access-token', token)
     .send({ name: 'Doe John', password: 'Test123!' })
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('status', true)
@@ -185,58 +178,42 @@ test('Admin can update user', async () => {
 })
 
 test('Admin cannot update user without name, email or password', async () => {
-  let response = await request(app)
-    .post('/login')
-    .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
-  expect(response.statusCode).toBe(200)
-  expect(response.body).toHaveProperty('token')
+  const token = await getToken('Sebastien.Viardot@grenoble-inp.fr', '123456')
 
-  response = await request(app)
+  const response = await request(app)
     .put('/api/users/5')
-    .set('x-access-token', response.body.token)
+    .set('x-access-token', token)
   expect(response.statusCode).toBe(400)
   expect(response.body.message).toBe('You must specify the name, email or password')
 })
 
 test('Non-admin cannot update user', async () => {
-  let response = await request(app)
-    .post('/login')
-    .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
-  expect(response.statusCode).toBe(200)
-  expect(response.body).toHaveProperty('token')
+  const token = await getToken('John.Doe@acme.com', 'Test123!')
 
-  response = await request(app)
+  const response = await request(app)
     .put('/api/users/5')
-    .set('x-access-token', response.body.token)
+    .set('x-access-token', token)
     .send({ password: 'Test321!' })
   expect(response.statusCode).toBe(403)
   expect(response.body.message).toBe('You must be an admin')
 })
 
 test('Non-admin cannot delete user', async () => {
-  let response = await request(app)
-    .post('/login')
-    .send({ email: 'John.Doe@acme.com', password: 'Test123!' })
-  expect(response.statusCode).toBe(200)
-  expect(response.body).toHaveProperty('token')
+  const token = await getToken('John.Doe@acme.com', 'Test123!')
 
-  response = await request(app)
+  const response = await request(app)
     .delete('/api/users/5')
-    .set('x-access-token', response.body.token)
+    .set('x-access-token', token)
   expect(response.statusCode).toBe(403)
   expect(response.body.message).toBe('You must be an admin')
 })
 
 test('Admin can delete user', async () => {
-  let response = await request(app)
-    .post('/login')
-    .send({ email: 'Sebastien.Viardot@grenoble-inp.fr', password: '123456' })
-  expect(response.statusCode).toBe(200)
-  expect(response.body).toHaveProperty('token')
+  const token = await getToken('Sebastien.Viardot@grenoble-inp.fr', '123456')
 
-  response = await request(app)
+  const response = await request(app)
     .delete('/api/users/5')
-    .set('x-access-token', response.body.token)
+    .set('x-access-token', token)
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('status', true)
   expect(response.body).toHaveProperty('message', 'User deleted')

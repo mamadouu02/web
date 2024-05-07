@@ -4,7 +4,7 @@ import { AppContext } from '../AppContext'
 import ListGroups from '../components/ListGroups'
 import Button from '../components/Button'
 import InputField from '../components/InputField'
-import Error from './Error'
+import ErrorMessage from './ErrorMessage'
 
 function Groups({ onClickHandler }) {
   const { token, count, setCount, backend } = useContext(AppContext)
@@ -51,7 +51,7 @@ function Groups({ onClickHandler }) {
         placeholder='Nom du nouveau groupe'
         onChangeHandler={setGroupName}
       />
-      {error ? <Error status={error.status} message={error.message} /> : null}
+      {error ? <ErrorMessage status={error.status} message={error.message} /> : null}
       <Button onClickHandler={newGroup} title='Créer' />
     </fieldset>
   )

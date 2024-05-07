@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react'
 import { PropTypes } from 'prop-types'
 import { AppContext } from '../AppContext'
 import Button from './Button'
-import Error from './Error'
+import ErrorMessage from './ErrorMessage'
 
 function MemberManager({ gid }) {
   const { token, count, setCount, backend } = useContext(AppContext)
@@ -50,7 +50,7 @@ function MemberManager({ gid }) {
         ))}
       </select>
       <Button onClickHandler={addMember} title='Ajouter' />
-      {error ? <Error status={error.status} message={error.message} /> : null}
+      {error ? <ErrorMessage status={error.status} message={error.message} /> : null}
     </div>
   )
 }

@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types'
 import { AppContext } from '../AppContext'
 import Button from './Button'
 import InputField from './InputField'
-import Error from './Error'
+import ErrorMessage from './ErrorMessage'
 
 function RegisterForm({ onValid }) {
   const { setLogin } = useContext(AppContext)
@@ -91,7 +91,7 @@ function RegisterForm({ onValid }) {
         onChangeHandler={setConfirmPassword}
         onErrorHandler={checkConfirmPassword}
       />
-      {error ? <Error status={error.status} message={error.message} /> : null}
+      {error ? <ErrorMessage status={error.status} message={error.message} /> : null}
       <Button onClickHandler={registerHandler} title='OK' />
     </fieldset>
   )
