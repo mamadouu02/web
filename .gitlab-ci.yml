@@ -94,9 +94,7 @@ cypress:
   stage: test
   tags:
     - docker
-  image: node
-  services:
-    - cypress/base:16.18.1
+  image: cypress/base:16.18.1
   script:
     - apt-get update && apt-get install -y curl
     - cd frontend
