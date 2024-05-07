@@ -5,6 +5,16 @@ stages:
   - test
   - deploy
 
+default:
+  cache:
+    key:
+      files:
+        - backend/package.json
+        - frontend/package.json
+    paths:
+      - backend/node_modules
+      - frontend/node_modules
+
 lint-js:
   stage: lint
   tags:
@@ -17,11 +27,16 @@ lint-js:
     - cd ../frontend
     - npm i
     - npx eslint src --ext js,jsx >> ../eslint.report.txt
+    - cd ..
+    - "NBERR=$(grep -e '  error' eslint.report.txt | wc -l || true); NBWARN=$(grep -e '  warning' eslint.report.txt | wc -l || true); color='success'"
+    - "[[ $NBERR > 0 ]] && color='red' || [[ $NBWARN > 0 ]] && color='yellow' || true"
+    - "curl -o eslint.badge.svg https://img.shields.io/badge/eslint-$NBERR%20errors,%20$NBWARN%20warnings-$color"
   allow_failure: true
   artifacts:
     when: always
     paths:
       - eslint.report.txt
+      - eslint.badge.svg
 
 sonarqube-report:
   stage: sonarqube-check
@@ -76,26 +91,36 @@ api-test:
     - cd backend
     - npm i
     - npm run test > ../api-test.report.txt 2>&1
+    - cd ..
+    - "grep -q -e 'failed' api-test.report.txt && res='FAILED' && color='failed' || res='PASSED' && color='success' || true"
+    - "curl -o api-test.badge.svg https://img.shields.io/badge/API%20test-$res-$color"
   artifacts:
     when: always
     paths:
       - api-test.report.txt
+      - api-test.badge.svg
 
 cypress:
   stage: test
   tags:
     - docker
   image: cypress/base:16.18.1
+  services:
+    - node
   script:
     - cd frontend
     - npm i
     - (npm run dev &)
     - npx cypress run > ../cypress.report.txt
     - kill -9 $(ps | grep node | awk '{print $1}')
+    - cd ..
+    - "grep -q -e 'All specs passed!' cypress.report.txt && res='PASSED' && color='success' || res='FAILED' && color='failed' || true"
+    - "curl -o cypress.badge.svg https://img.shields.io/badge/cypress-$res-$color"
   artifacts:
     when: always
     paths:
       - cypress.report.txt
+      - cypress.badge.svg
 
 # Job pour exposer l'API sur Scalingo
 # URL d'exposition de l'API : https://web-application.osc-fr1.scalingo.io/
@@ -154,27 +179,3 @@ pages: # Job de mise en ligne du frontend de production sur les pages du projet
   artifacts: # On précise que le répertoire des pages doit être conservé une fois le job terminé
     paths:
       - public
-
-badges:
-  stage: deploy
-  tags:
-    - docker
-  image: node
-  script:
-    - "NBERR=$(grep -e '  error' eslint.report.txt | wc -l || true); NBWARN=$(grep -e '  warning' eslint.report.txt | wc -l || true); color='success'"
-    - "[[ $NBERR > 0 ]] && color='red' || [[ $NBWARN > 0 ]] && color='yellow' || true"
-    - "curl -o eslint.badge.svg https://img.shields.io/badge/eslint-$NBERR%20errors,%20$NBWARN%20warnings-$color"
-    - "grep -q -e 'failed' api-test.report.txt && res='FAILED' && color='failed' || res='PASSED' && color='success' || true"
-    - "curl -o api-test.badge.svg https://img.shields.io/badge/API%20test-$res-$color"
-    - "grep -q -e 'All specs passed!' cypress.report.txt && res='PASSED' && color='success' || res='FAILED' && color='failed' || true"
-    - "curl -o cypress.badge.svg https://img.shields.io/badge/cypress-$res-$color"
-  dependencies:
-    - lint-js
-    - api-test
-    - cypress
-  artifacts:
-    paths:
-      - eslint.badge.svg
-      - api-test.badge.svg
-      - cypress.badge.svg
-  when: always
