@@ -94,9 +94,9 @@ cypress:
   stage: test
   tags:
     - docker
-  image: cypress/base:16.18.1
+  image: node
   services:
-    - node
+    - cypress/base:16.18.1
   script:
     - cd frontend
     - npm i
