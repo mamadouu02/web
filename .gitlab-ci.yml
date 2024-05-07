@@ -98,6 +98,7 @@ cypress:
   services:
     - cypress/base:16.18.1
   script:
+    - apt-get update && apt-get install -y curl
     - cd frontend
     - npm i
     - (npm run dev &)
