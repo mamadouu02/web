@@ -6,8 +6,6 @@ author:
 
 ## Cahier des charges
 
-Ici vous décrivez les fonctionnalités souhaitées et celles effectivement mises en oeuvre. Avec un diagramme UML des cas d'usage et des maquettes des vues souhaitées et des captures d'écran de ce qui a été réalisé.
-
 ### Cas d'usage
 
 A modifier/compléter 
@@ -17,29 +15,53 @@ A modifier/compléter
 left to right direction
 actor "Visitor" as v
 actor "Registered User" as u
+actor "Member" as m
+actor "Group owner" as o
 actor "Admin" as a
-u <-- a
+actor "Group manager" as g
+u <-- g
+u <-- m
+g <-- o
+g <-- a
 rectangle Application {
   usecase "Register" as R
   usecase "Connect" as C
-  usecase "Create a Group" as CG
-  usecase "Add user in one of my groups" as AU
-  usecase "Delete user in one of my groups" as AU
-  usecase "Delete a Group" as DG
+  usecase "Disconnect" as D
+  usecase "View users" as VU
+  usecase "View own groups" as VOG
+  usecase "View my groups" as VMG
+  usecase "View all groups" as VAG
+  usecase "View messages" as VM
+  usecase "Create group" as CG
+  usecase "Add member" as AM
+  usecase "Delete member" as DM
+  usecase "Leave group" as LG
+  usecase "Delete group" as DG
   usecase "Change role" as CR
+  usecase "Post message" as PM
 }
-a --> DG
-a --> CR
 v --> R
 u --> C
-u --> AU
+u --> D
+u --> VU
+o --> VOG
+u --> VMG
+a --> VAG
+u --> VM
 u --> CG
+g --> AM
+g --> DM
+u --> LG
+g --> DG
+a --> CR
+u --> PM
 @enduml
 ```
 
 ### Maquettes
 
-A modifier/compléter...
+![Maquette du formulaire de connexion](/img/login.svg "Maquette du formulaire de connexion")
+![Maquette de la gestion des groupes](/img/groups.svg "Maquette de la gestion des groupes")
 
 ```plantuml
 @startsalt
@@ -81,7 +103,9 @@ header {- Alice@aol.fr | [Se déconnecter] }
 
 ### Captures d'écran
 
-A compléter
+![Formulaire de connexion](/img/login.png "Formulaire de connexion")
+![Gestion des groupes](/img/groups.png "Gestion des groupes")
+![Gestion des messages](/img/messages.png "Gestion des messages")
 
 ### API mise en place
 
@@ -166,6 +190,27 @@ tree --charset=ascii backend
 |       |-- utilX.js #initialisation de la BD
 |-- swagger_output.json
 `-- bd.sqlite
+```
+
+#### Obtention d'un token d'accès
+
+```js
+fetch("http://localhost:3000/login", {
+  "method": "POST",
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "email": "John.Doe@acme.com",
+    "password": "1m02P@SsF0rt!"
+  }
+})
+.then(response => {
+  console.log(response);
+})
+.catch(err => {
+  console.error(err);
+});
 ```
 
 ### Gestion des rôles et droits
