@@ -8,8 +8,6 @@ author:
 
 ### Cas d'usage
 
-A modifier/compléter 
-
 ```plantuml
 @startuml
 left to right direction
@@ -218,7 +216,7 @@ backend/src
 #### Obtention d'un token d'accès
 
 ```js
-fetch("http://localhost:3000/login", {
+fetch(" https://web-application.osc-fr1.scalingo.io/login", {
   "method": "POST",
   "headers": {
     "content-type": "application/json"
@@ -238,32 +236,69 @@ fetch("http://localhost:3000/login", {
 
 ### Gestion des rôles et droits
 
-Expliquer ici les différents rôles mis en place, et comment ils sont gérés dans votre code.
+#### Backend
 
-- Coté backend
+Les différentes rôles mis en place sont : utilisateur, membre d'un groupe, propriétaire d'un groupe et administrateur.
 
-- Coté frontend
+Les rôles sont gérés par des *middleware* implémentés dans les fichiers du répertoire `backend/src/controllers`.
+
+#### Frontend
+
+Les rôles précédents sont gérées à l'aide d'un contexte (`frontend/src/AppContext.js`) définissant plusieurs variables (token, login) à partir d'appels au backend.
+
+Les fonctionnalités des administrateurs sont incomplètes (suppression d'un groupe et changement de rôle non implémentés).
 
 ## Test
 
 ### Backend
 
-Décrivez les tests faits au niveau du backend, leur couverture.
+Des tests Jest sont faits au niveau du backend avec une couverture de 100%
+
+```sh
+cd backend
+npm install
+npm run test
+```
 
 ### Frontend
 
-Décrivez les tests faits au niveau du backend, leur couverture.
+Des tests Cypress sont faits au niveau du frontend (formulaire de connexion et gestion des groupes). Ces tests sont indépendants du backend grâce à l'interception des requêtes réseau. Les fixtures se trouvent dans le répertoire `frontend/cypress/fixtures`
+
+```sh
+cd frontend
+npm install
+npm run dev &
+npx cypress run
+```
 
 ## Intégration + déploiement (/3)
 
-Décrivez ici les éléments mis en place au niveau de l'intégration continue 
+Éléments mis en place :
+- eslint
+- sonarqube
+- semgrep-security
+- api-test (tests backend)
+- cypress (tests frontend)
+- scalingo (déploiement du backend)
+- pages (déploiement de l'application)
+- génération de bages
 
 ## Installation
 
 ```sh
-cd frontend; npm install; npm run dev #frontend
-commande # pour lancer les tests frontend
-cd backend; npm install; npm run start #backend
-commande # pour lancer les tests backend ?
-firefox https://xxx.scalingo.ioscalingo/docs # pour accéder à la doc scalingo si déployé en ligne
+cd backend
+npm install
+npm run start
+firefox  https://web-application.osc-fr1.scalingo.io # pour accéder à la doc scalingo
 ```
+
+```sh
+cd frontend
+npm install
+npm run dev
+firefox http://localhost:5173 # pour accéder à l'application
+```
+
+## Accès à l'application
+
+Lien de l'application : https://tp5-6-backend-react-ahmed-boudahmane-mamadou-thi-2b3c5d404a9c87.pages.ensimag.fr/
