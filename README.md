@@ -216,7 +216,7 @@ backend/src
 #### Obtention d'un token d'accès
 
 ```js
-fetch(" https://web-application.osc-fr1.scalingo.io/login", {
+fetch("https://web-application.osc-fr1.scalingo.io/login", {
   "method": "POST",
   "headers": {
     "content-type": "application/json"
@@ -281,7 +281,7 @@ npx cypress run
 - cypress (tests frontend)
 - scalingo (déploiement du backend)
 - pages (déploiement de l'application)
-- génération de bages
+- génération de badges
 
 ## Installation
 
