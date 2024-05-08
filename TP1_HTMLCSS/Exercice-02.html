@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <title> TP 1, Exo 2 </title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+  <h1> Colloque &laquo;&nbsp;Applis web &nbsp;&raquo; du 18 au 19 octobre 2021 </h1>
+  <!-- Compléter la suite -->
+  <fieldset>
+    <legend>Pour vous inscrire, veuillez indiquer les informations suivantes:</legend>
+
+    <form method="post">
+      <ul>
+        <li>
+          <label for="nom">Nom </label>
+          <input type="text" name="nom" id="nom">
+        </li>
+
+        <li>
+          <label for="prenom">Prénom </label>
+          <input type="text" name="prenom" id="prenom">
+        </li>
+
+        <li>
+          <label for="adresse">Adresse de Facturation </label>
+          <textarea name="adresse-de-facturation" id="adresse"></textarea>
+        </li>
+
+        <li>
+          <label for="arrivee">Date d'arrivée</label>
+          <input type="date" name="date-arrivee" id="arrivee" value="2021-10-18" min="2021-10-18" max="2021-10-19">
+
+          <label for="depart">Date de départ</label>
+          <input type="date" name="date-depart" id="depart" value="2021-10-19" min="2021-10-18" max="2021-10-19">
+        </li>
+
+        <li>
+          <label>Votre statut</label>
+
+          <div class="statut">
+            <input type="radio" name="statut" value="conferencier" id="statut-1">
+            <label for="statut-1">Conférencier</label>
+
+            <input type="radio" name="statut" value="chercheur" id="statut-2">
+            <label for="statut-2">Chercheur</label>
+
+            <input type="radio" name="statut" value="industriel" id="statut-3">
+            <label for="statut-3">Industriel</label>
+          </div>
+        </li>
+
+        <li>
+          <label>Réservation souhaitée</label>
+
+          <div class="reservation">
+            <input type="checkbox" name="reservation" value="dejeuner-1" id="reservation-1">
+            <label for="reservation-1">Déjeuner Jour 1</label>
+
+            <input type="checkbox" name="reservation" value="dejeuner-2" id="reservation-2">
+            <label for="reservation-2">Déjeuner Jour 2</label>
+
+            <input type="checkbox" name="reservation" value="diner-1" id="reservation-3">
+            <label for="reservation-3">Diner Jour 1</label>
+
+            <input type="checkbox" name="reservation" value="diner-2" id="reservation-4">
+            <label for="reservation-4">Diner Jour 2</label>
+          </div>
+        </li>
+      </ul>
+
+      <input type="submit" value="S'inscrire">
+    </form>
+  </fieldset>
+</body>
+
+</html>
