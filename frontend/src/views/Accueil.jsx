@@ -3,7 +3,7 @@ import { AppContext } from '../AppContext'
 import Button from '../components/Button'
 import Groups from '../components/Groups'
 import GroupManager from '../components/GroupManager'
-import GroupMessages from '../components/GroupsMessages'
+import GroupMessages from '../components/GroupMessages'
 
 function Accueil() {
   const { setToken, login, setLogin } = useContext(AppContext)

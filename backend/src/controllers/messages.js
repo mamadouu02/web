@@ -1,6 +1,5 @@
 const status = require('http-status')
 const messageModel = require('../models/messages.js')
-const groupModel = require('../models/groups.js')
 const has = require('has-keys')
 const CodeError = require('../util/CodeError.js')
 
@@ -28,9 +27,9 @@ module.exports = {
     // #swagger.parameters['obj'] = { in: 'body', schema: { $content: 'Hello !' } }
     if (!has(req.body, 'content')) throw new CodeError('You must specify the content of the message', status.BAD_REQUEST)
     const { content } = req.body
-    const message = await groupModel.create({ content })
-    await req.user.createMessage(message)
-    await req.group.createMessage(message)
+    const message = await messageModel.create({ content })
+    await req.user.addMessage(message)
+    await req.group.addMessage(message)
     res.json({ status: true, message: 'Message posted' })
   }
 }
