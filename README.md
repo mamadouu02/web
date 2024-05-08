@@ -151,8 +151,8 @@ frontend/src
 |-- index.css
 |-- main.jsx
 `-- views
-    |-- Accueil.jsx
-    `-- LoginView.jsx
+    |-- Accueil.jsx # Page d'accueil
+    `-- LoginView.jsx # Page de connexion
 ```
 
 ### Backend
