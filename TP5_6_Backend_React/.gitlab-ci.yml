@@ -1,0 +1,170 @@
+stages:
+  - lint
+  - sonarqube-check
+  - security-report
+  - test
+  - deploy
+
+lint-js:
+  stage: lint
+  tags:
+    - docker
+  image: node
+  script:
+    - cd backend
+    - npm i
+    - npx eslint src --ext js > ../eslint.report.txt
+    - cd ../frontend
+    - npm i
+    - npx eslint src --ext js,jsx >> ../eslint.report.txt
+    - cd ..
+    - "NBERR=$(grep -e '  error' eslint.report.txt | wc -l || true); NBWARN=$(grep -e '  warning' eslint.report.txt | wc -l || true); color='success'"
+    - "[[ $NBERR > 0 ]] && color='red' || [[ $NBWARN > 0 ]] && color='yellow' || true"
+    - "curl -o eslint.badge.svg https://img.shields.io/badge/eslint-$NBERR%20errors,%20$NBWARN%20warnings-$color"
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - eslint.report.txt
+      - eslint.badge.svg
+
+sonarqube-report:
+  stage: sonarqube-check
+  image:
+    name: sonarsource/sonar-scanner-cli:5.0
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
+    GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  before_script:
+    # Les étapes suivantes permettent d'accepter le certificat du serveur de l'Ensimag
+    - wget https://ssl-tools.net/certificates/c2826e266d7405d34ef89762636ae4b36e86cb5e.pem -O /usr/local/share/ca-certificates/loupanov-ca.pem
+    - update-ca-certificates
+    - keytool -import -trustcacerts -file /usr/local/share/ca-certificates/loupanov-ca.pem  -alias sonarqube -keystore "$JAVA_HOME/lib/security/cacerts" -storepass changeit -noprompt
+  script:
+    - sonar-scanner -X # Lance l'analyse distante du projet
+  allow_failure: true
+  only:
+    - main
+
+semgrep-security-report:
+  stage: security-report
+  image: returntocorp/semgrep
+  script:
+    - apk add gawk
+    - pip3 install anybadge
+    # Voir https://semgrep.dev/r pour la sélection des types d'analyse
+    - 'semgrep --config "p/default" --config  "r/javascript" --config  "r/html" --config "r/css" --gitlab-sast -o gl-sast-semgrep-report.json  .'
+    - BADGES="javascript html dockerfile"
+    # et https://github.com/returntocorp/semgrep-rules/tree/develop
+    - 'for b in $BADGES; do semgrep --config "r/${b}" -o "semgrep_${b}.report.txt" .;done'
+    - "for b in $BADGES; do SCORE=$(gawk 'match($0,/([0-9]+) Code Finding/,a){print a[1]}' semgrep_${b}.report.txt);echo $SCORE;anybadge -l $b -v _${SCORE} > $b.badge.svg;done"
+  allow_failure: true
+  artifacts:
+    reports:
+      sast: gl-sast-semgrep-report.json
+    paths:
+      - "*.report.txt"
+      - "*.badge.svg"
+      - gl-sast-semgrep-report.json
+
+api-test:
+  stage: test
+  tags:
+    - docker
+  image: node
+  script:
+    - cd backend
+    - npm i
+    - npm run test > ../api-test.report.txt 2>&1
+    - cd ..
+    - "grep -q -e 'failed' api-test.report.txt && res='FAILED' && color='failed' || res='PASSED' && color='success' || true"
+    - "curl -o api-test.badge.svg https://img.shields.io/badge/API%20test-$res-$color"
+  artifacts:
+    when: always
+    paths:
+      - api-test.report.txt
+      - api-test.badge.svg
+
+cypress:
+  stage: test
+  tags:
+    - docker
+  image: cypress/base:16.18.1
+  script:
+    - apt-get update && apt-get install -y curl
+    - cd frontend
+    - npm i
+    - (npm run dev &)
+    - npx cypress run > ../cypress.report.txt
+    - kill -9 $(ps | grep node | awk '{print $1}')
+    - cd ..
+    - "grep -q -e 'All specs passed!' cypress.report.txt && res='PASSED' && color='success' || res='FAILED' && color='failed' || true"
+    - "curl -o cypress.badge.svg https://img.shields.io/badge/cypress-$res-$color"
+  artifacts:
+    when: always
+    paths:
+      - cypress.report.txt
+      - cypress.badge.svg
+
+# Job pour exposer l'API sur Scalingo
+# URL d'exposition de l'API : https://web-application.osc-fr1.scalingo.io/
+scalingo:
+  stage: deploy
+  tags:
+    - docker
+  variables:
+    # SCALINGO_API_TOKEN # variable à ne pas définir en clair ici (cf instructions à la fin du .gitlab-ci.yml ci-dessous)
+    SCALINGO_APP_NAME: web-application # le nom de votre appli chez scalingo
+    SCALINGO_REGION: osc-fr1 # l'instance de scalingo sur laquelle votre appli est déployée
+    GIT_DEPTH: 0
+    PROJECT_DIR: backend # Le répertoire dans le dépôt où est le backend
+  image: ruby:3.1.3 # car dpl est codé en Ruby
+  script:
+    # Installer scalingo CLI
+    - curl -O https://cli-dl.scalingo.com/install && bash install
+    # Pour indiquer sur le dépôt distant où est le backend
+    # (s'il est à la racine du projet ceci est facultatif, et il est possible de le faire une fois pour toute directement dans l'interface web de scalingo)
+    - scalingo --app=$SCALINGO_APP_NAME env-set PROJECT_DIR=$PROJECT_DIR
+    # Se connecter à scalingo avec le token d'authentification
+    - scalingo login --api-token $SCALINGO_API_TOKEN
+    # Créer une paire de clé ssh pour faire les manips git sur le dépôt scalingo
+    - mkdir -p ~/.dpl
+    - ssh-keygen -t rsa -N "" -C $HOSTNAME -f ~/.dpl/id_rsa
+    # Ajouter à scalingo la clé publique créée précédemment
+    - scalingo keys-remove dpl_tmp_key || echo "On la supprime au préalable au cas où elle aurait déjà été ajoutée"
+    - scalingo keys-add dpl_tmp_key ~/.dpl/id_rsa.pub
+    # Initialiser le dépôt scalingo distant (en forçant si ce n'est pas le première fois)
+    - scalingo --app $SCALINGO_APP_NAME git-setup --remote scalingo-dpl --force
+    - curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash # Installation de nvm
+    - export NVM_DIR="$HOME/.nvm"
+    - \. "$NVM_DIR/nvm.sh"  
+    - \. "$NVM_DIR/bash_completion"
+    - nvm install node # Installe la dernière version de node
+    - nvm use node
+    - cd frontend # On se place dans le répertoire des sources du frontend
+    - npm i && npm run build && cp -rf dist/* ../backend/src/frontend # Pour générer la version de production du frontend
+    - git config --global user.email "$GITLAB_USER_EMAIL" # Configure git pour pouvoir pousser la version de production du frontend sur le dépot git de scalingo
+    - git config --global user.name "$GITLAB_USER_NAME"
+    - cd ../backend/src/frontend && git add . && git commit -m "MAJ frontend" # Ajoute les fichiers de production du frontend
+    # Pousser la version du backend sur le dépôt scalingo (ce qui va provoquer son déploiement)
+    - "GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no -i ~/.dpl/id_rsa' git push scalingo-dpl HEAD:refs/heads/main -f"
+    # Supprimer la clé temporaire ajoutée
+    - scalingo keys-remove dpl_tmp_key || echo Suppression
+
+pages: # Job de mise en ligne du frontend de production sur les pages du projet
+  stage: deploy
+  image: node
+  script:
+    - mkdir public # Création du répertoire du frontend de production
+    - cd frontend  # On se place dans le répertoire des sources du frontend
+    - npm i # On installe les paquets nécessaires
+    - npm run build # Et on génère les fichiers de production
+    - cp -rf dist/* ../public/ # Qui sont copiés dans le répertoire dédié
+  artifacts: # On précise que le répertoire des pages doit être conservé une fois le job terminé
+    paths:
+      - public

@@ -1,0 +1,21 @@
+{
+  "status": true,
+  "message": "Returning groups",
+  "data": [
+    {
+      "id": 1,
+      "name": "GroupOne",
+      "ownerId": 1
+    },
+    {
+      "id": 2,
+      "name": "GroupTwo",
+      "ownerId": 1
+    },
+    {
+      "id": 3,
+      "name": "GroupThree",
+      "ownerId": 2
+    }
+  ]
+}

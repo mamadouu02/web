@@ -1,0 +1,21 @@
+{
+  "status": true,
+  "message": "Returning members",
+  "data": [
+    {
+      "id": 1,
+      "name": "Sebastien Viardot",
+      "email": "Sebastien.Viardot@grenoble-inp.fr"
+    },
+    {
+      "id": 2,
+      "name": "Sylvain Bouveret",
+      "email": "Sylvain.Bouveret@grenoble-inp.fr"
+    },
+    {
+      "id": 3,
+      "name": "Franck Rousseau",
+      "email": "Franck.Rousseau@grenoble-inp.fr"
+    }
+  ]
+}
