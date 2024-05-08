@@ -60,8 +60,15 @@ u --> PM
 
 ### Maquettes
 
-![Maquette du formulaire de connexion](/img/login.svg "Maquette du formulaire de connexion")
-![Maquette de la gestion des groupes](/img/groups.svg "Maquette de la gestion des groupes")
+#### Forumulaire de connexion
+
+![Maquette du formulaire de connexion](/img/maquette-login.png "Maquette du formulaire de connexion")
+
+#### Gestion des groupes
+
+![Maquette de la gestion des groupes](/img/maquette-groups.png "Maquette de la gestion des groupes")
+
+#### Gestion des messages
 
 ```plantuml
 @startsalt
@@ -103,46 +110,56 @@ header {- Alice@aol.fr | [Se déconnecter] }
 
 ### Captures d'écran
 
+#### Forumulaire de connexion
+
 ![Formulaire de connexion](/img/login.png "Formulaire de connexion")
+
+#### Gestion des groupes
+
 ![Gestion des groupes](/img/groups.png "Gestion des groupes")
+
+#### Gestion des messages
+
 ![Gestion des messages](/img/messages.png "Gestion des messages")
 
 ### API mise en place
 
-Donner le lien vers la documentation swagger et/ou faire un tableau récapitulant l'API
-
-A compléter
+Lien vers la documentation swagger : https://web-application.osc-fr1.scalingo.io/doc/
 
 ## Architecture du code
 
 ### FrontEnd
 
-Indiquer ici l'organisation de votre code. Et les choix faits pour le frontend.
-
-```bash
-# exemple d'arborescence commentée avec la commande 'tree'
-login@pc nomProjet % tree --charset=ascii frontend
-.
-|-- README.md
-|-- index.html
-|-- package.json
-|-- src
-|   |-- App.css
-|   |-- App.jsx
-|   |-- components
-|   |   `-- ComposantX.jsx # Formulaire de login
-|   |-- index.css # feuille de style
-|   |-- main.jsx
-|   |-- utils
-|   `-- views
-|       `-- ViewX.jsx
+```sh
+frontend/src
+|-- App.css
+|-- App.jsx
+|-- AppContext.js
+|-- assets
+|   `-- logo.svg
+|-- components
+|   |-- Button.jsx
+|   |-- ErrorMessage.jsx
+|   |-- GroupManager.jsx
+|   |-- GroupMessages.jsx
+|   |-- Groups.jsx
+|   |-- InputField.jsx
+|   |-- ListGroups.jsx
+|   |-- ListMembers.jsx
+|   |-- ListMessages.jsx
+|   |-- LoginForm.jsx
+|   |-- MemberManager.jsx
+|   `-- RegisterForm.jsx
+|-- index.css
+|-- main.jsx
+`-- views
+    |-- Accueil.jsx
+    `-- LoginView.jsx
 ```
 
 ### Backend
 
 #### Schéma de votre base de donnée
-
-A modifier/compléter...
 
 ```plantuml
 class User{
@@ -169,27 +186,33 @@ User "1" -- "n"  Group : create and own
 
 #### Architecture de votre code
 
-Indiquer ici l'organisation de votre code. Et les choix faits pour le backend.
-
-```bash
-# exemple d'arborescence commentée
-tree --charset=ascii backend                                                                                                          
-.
-|-- src
-|   |-- __tests__
-|   |   `-- testX.js
-|   |-- app.js
-|   |-- controllers
-|   |   `-- controllerX.js #controlleur de api/group:id
-|   |-- models
-|   |   `-- modelX.js #modèle de user
-|   |-- routes
-|   |   `-- routeX.js #route gérant api/group{/:id}
-|   |-- server.js
-|   `-- util
-|       |-- utilX.js #initialisation de la BD
-|-- swagger_output.json
-`-- bd.sqlite
+```sh
+backend/src
+|-- __tests__
+|   `-- api.test.js
+|-- app.js
+|-- controllers
+|   |-- groups.js
+|   |-- messages.js
+|   `-- user.js
+|-- frontend
+|   `-- index.html
+|-- models
+|   |-- database.js
+|   |-- groups.js
+|   |-- messages.js
+|   `-- users.js
+|-- routes
+|   |-- groups.js
+|   |-- messages.js
+|   |-- router.js
+|   `-- user.js
+|-- server.js
+`-- util
+    |-- CodeError.js
+    |-- logger.js
+    |-- swagger.js
+    `-- updatedb.js
 ```
 
 #### Obtention d'un token d'accès
@@ -221,7 +244,6 @@ Expliquer ici les différents rôles mis en place, et comment ils sont gérés d
 
 - Coté frontend
 
-
 ## Test
 
 ### Backend
@@ -238,9 +260,7 @@ Décrivez ici les éléments mis en place au niveau de l'intégration continue
 
 ## Installation
 
-Donner les éléments pour installer l'application sur une machine nue à partir de votre dépôt
-
-```bash
+```sh
 cd frontend; npm install; npm run dev #frontend
 commande # pour lancer les tests frontend
 cd backend; npm install; npm run start #backend
