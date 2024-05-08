@@ -60,11 +60,11 @@ u --> PM
 
 #### Formulaire de connexion
 
-![Maquette du formulaire de connexion](/img/maquette-login.png "Maquette du formulaire de connexion")
+![Maquette du formulaire de connexion](img/maquette-login.png "Maquette du formulaire de connexion")
 
 #### Gestion des groupes
 
-![Maquette de la gestion des groupes](/img/maquette-groups.png "Maquette de la gestion des groupes")
+![Maquette de la gestion des groupes](img/maquette-groups.png "Maquette de la gestion des groupes")
 
 #### Gestion des messages
 
@@ -110,15 +110,15 @@ header {- Alice@aol.fr | [Se déconnecter] }
 
 #### Formulaire de connexion
 
-![Formulaire de connexion](/img/login.png "Formulaire de connexion")
+![Formulaire de connexion](img/login.png "Formulaire de connexion")
 
 #### Gestion des groupes
 
-![Gestion des groupes](/img/groups.png "Gestion des groupes")
+![Gestion des groupes](img/groups.png "Gestion des groupes")
 
 #### Gestion des messages
 
-![Gestion des messages](/img/messages.png "Gestion des messages")
+![Gestion des messages](img/messages.png "Gestion des messages")
 
 ### API mise en place
 
