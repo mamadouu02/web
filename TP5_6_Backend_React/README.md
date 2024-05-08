@@ -58,7 +58,7 @@ u --> PM
 
 ### Maquettes
 
-#### Forumulaire de connexion
+#### Formulaire de connexion
 
 ![Maquette du formulaire de connexion](/img/maquette-login.png "Maquette du formulaire de connexion")
 
@@ -108,7 +108,7 @@ header {- Alice@aol.fr | [Se déconnecter] }
 
 ### Captures d'écran
 
-#### Forumulaire de connexion
+#### Formulaire de connexion
 
 ![Formulaire de connexion](/img/login.png "Formulaire de connexion")
 
