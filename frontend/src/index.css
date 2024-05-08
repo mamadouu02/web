@@ -66,3 +66,54 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.ListMessages {
+  margin-top: 20px;
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+.MessageContent {
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.MyMessage {
+  float: right;
+  clear: both;
+}
+
+.OtherMessage {
+  float: left;
+  clear: both;
+}
+
+.MessageAuthor {
+  font-size: 0.8em;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.GroupMessages legend {
+  padding: 0 10px;
+}
+
+.GroupMessages ul {
+  list-style-type: none;
+}
+
+.GroupMessages li {
+  margin: 0;
+  padding: 0;
+}
+
+.GroupMessages select {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}

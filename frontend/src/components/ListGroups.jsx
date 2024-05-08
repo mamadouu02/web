@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react'
 import { PropTypes } from 'prop-types'
 import { AppContext } from '../AppContext'
 
-function ListGroups({ member, onClickHandler = () => { } }) {
+function ListGroups({ member, onClickHandler }) {
   const { token, count, backend } = useContext(AppContext)
   const [groups, setGroups] = useState([])
   const endpoint = member ? '/api/groupsmember' : '/api/mygroups'
@@ -21,7 +21,15 @@ function ListGroups({ member, onClickHandler = () => { } }) {
       <h4>{member ? "Groupes dont je suis membre" : "Groupes que j'administre"}</h4>
       <ul>
         {groups.map((group, index) => (
-          <li key={index} onClick={() => onClickHandler(group)}>{group.name}</li>
+          <li key={index} onClick={() => {
+            if (member) {
+              onClickHandler.setGroupMember(group)
+              onClickHandler.setGroup(null)
+            } else {
+              onClickHandler.setGroup(group)
+              onClickHandler.setGroupMember(null)
+            }
+          }}>{group.name}</li>
         ))}
       </ul>
     </div>
@@ -30,7 +38,7 @@ function ListGroups({ member, onClickHandler = () => { } }) {
 
 ListGroups.propTypes = {
   member: PropTypes.bool.isRequired,
-  onClickHandler: PropTypes.func
+  onClickHandler: PropTypes.object.isRequired
 }
 
 export default ListGroups

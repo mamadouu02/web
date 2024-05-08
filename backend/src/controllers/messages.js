@@ -19,7 +19,7 @@ module.exports = {
   async getMessages (req, res) {
     // #swagger.tags = ['Messages']
     // #swagger.summary = 'List all messages posted in a group'
-    const data = await messageModel.findAll({ where: { id: req.params.gid } })
+    const data = await messageModel.findAll({ where: { groupId: req.params.gid } })
     res.json({ status: true, message: 'Returning messages', data })
   },
   async sendMessage (req, res) {

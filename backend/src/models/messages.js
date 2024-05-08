@@ -19,7 +19,7 @@ const messages = db.define('messages', {
   }
 }, { timestamps: false })
 
-users.hasMany(messages, { onDelete: 'CASCADE' })
+users.hasMany(messages, { onDelete: 'CASCADE', sourceKey: 'email' })
 messages.belongsTo(users)
 
 groups.hasMany(messages, { onDelete: 'CASCADE' })

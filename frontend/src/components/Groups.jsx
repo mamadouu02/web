@@ -38,11 +38,11 @@ function Groups({ onClickHandler }) {
 
     setGroupName("")
   }
-
+  
   return (
     <fieldset className='Groups'>
       <legend>Mes groupes</legend>
-      <ListGroups member={true} />
+      <ListGroups member={true} onClickHandler={onClickHandler} />
       <hr></hr>
       <ListGroups member={false} onClickHandler={onClickHandler} />
       <InputField
@@ -58,7 +58,7 @@ function Groups({ onClickHandler }) {
 }
 
 Groups.propTypes = {
-  onClickHandler: PropTypes.func
+  onClickHandler: PropTypes.object.isRequired
 }
 
 export default Groups

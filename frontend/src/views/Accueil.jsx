@@ -3,10 +3,12 @@ import { AppContext } from '../AppContext'
 import Button from '../components/Button'
 import Groups from '../components/Groups'
 import GroupManager from '../components/GroupManager'
+import GroupMessages from '../components/GroupsMessages'
 
 function Accueil() {
   const { setToken, login, setLogin } = useContext(AppContext)
   const [group, setGroup] = useState(null)
+  const [groupMember, setGroupMember] = useState(null)
 
   function logout() {
     setToken(null)
@@ -18,8 +20,9 @@ function Accueil() {
       <header>
         {login} | <Button onClickHandler={logout} title={'Se déconnecter'} />
       </header>
-      <Groups onClickHandler={setGroup} />
+      <Groups onClickHandler={{ setGroup, setGroupMember }} />
       {group ? <GroupManager group={group} /> : null}
+      {groupMember ? <GroupMessages group={groupMember}/> : null}
     </div>
   )
 }
