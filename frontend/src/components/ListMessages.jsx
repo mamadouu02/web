@@ -6,13 +6,19 @@ function ListMessages({ gid }) {
   const { token, login, count, backend } = useContext(AppContext)
   const [messages, setMessages] = useState([])
 
-  useEffect(() => {
+  function getMessages() {
     fetch(backend + '/api/messages/' + gid, {
       method: 'GET',
       headers: { 'x-access-token': token }
     })
       .then(res => res.json())
       .then(json => setMessages(json.data))
+  }
+
+  useEffect(() => {
+    getMessages()
+    const timerID = setInterval(getMessages, 5000)
+    return (() => clearInterval(timerID))
   }, [gid, count])
 
   return (
