@@ -132,22 +132,22 @@ Lien vers la documentation swagger : https://web-application.osc-fr1.scalingo.io
 frontend/src
 |-- App.css
 |-- App.jsx
-|-- AppContext.js
+|-- AppContext.js # Contexte
 |-- assets
-|   `-- logo.svg
+|   `-- logo.svg # Un logo
 |-- components
-|   |-- Button.jsx
-|   |-- ErrorMessage.jsx
-|   |-- GroupManager.jsx
-|   |-- GroupMessages.jsx
-|   |-- Groups.jsx
-|   |-- InputField.jsx
-|   |-- ListGroups.jsx
-|   |-- ListMembers.jsx
-|   |-- ListMessages.jsx
-|   |-- LoginForm.jsx
-|   |-- MemberManager.jsx
-|   `-- RegisterForm.jsx
+|   |-- Button.jsx # Boutons
+|   |-- ErrorMessage.jsx # Champs pour les messages d'erreur
+|   |-- GroupManager.jsx # Ajout de membre
+|   |-- GroupMessages.jsx # Gestion des messages (envoi, ...)
+|   |-- Groups.jsx # Gestion des groupes (création, ...)
+|   |-- InputField.jsx # Champs de saisie
+|   |-- ListGroups.jsx # Liste des groupes
+|   |-- ListMembers.jsx # Liste des membres
+|   |-- ListMessages.jsx # Liste des messages
+|   |-- LoginForm.jsx # Formulaire de connexion
+|   |-- MemberManager.jsx # Suppression de membre
+|   `-- RegisterForm.jsx # Formulaire d'enregistrement
 |-- index.css
 |-- main.jsx
 `-- views
@@ -252,7 +252,7 @@ Les fonctionnalités des administrateurs sont incomplètes (suppression d'un gro
 
 ### Backend
 
-Des tests Jest sont faits au niveau du backend avec une couverture de 100%
+Des tests Jest sont faits au niveau du backend avec une couverture de 100%.
 
 ```sh
 cd backend
@@ -262,7 +262,7 @@ npm run test
 
 ### Frontend
 
-Des tests Cypress sont faits au niveau du frontend (formulaire de connexion et gestion des groupes). Ces tests sont indépendants du backend grâce à l'interception des requêtes réseau. Les fixtures se trouvent dans le répertoire `frontend/cypress/fixtures`
+Des tests Cypress sont faits au niveau du frontend (formulaire de connexion et gestion des groupes). Ces tests sont indépendants du backend grâce à l'interception des requêtes réseau. Les fixtures se trouvent dans le répertoire `frontend/cypress/fixtures`.
 
 ```sh
 cd frontend
@@ -295,7 +295,7 @@ firefox  https://web-application.osc-fr1.scalingo.io # pour accéder à la doc s
 ```sh
 cd frontend
 npm install
-npm run dev
+npm run dev &
 firefox http://localhost:5173 # pour accéder à l'application
 ```
 
