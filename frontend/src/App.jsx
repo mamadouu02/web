@@ -8,8 +8,7 @@ function App() {
   const [token, setToken] = useState(null)
   const [login, setLogin] = useState(null)
   const [count, setCount] = useState(0)
-  // const backend = 'https://web-application.osc-fr1.scalingo.io'
-  const backend = 'http://localhost:3000'
+  const backend = 'https://web-application.osc-fr1.scalingo.io'
 
   return (
     <AppContext.Provider value={{ token, setToken, login, setLogin, count, setCount, backend }}>
